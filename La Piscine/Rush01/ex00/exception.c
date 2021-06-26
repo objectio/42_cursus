@@ -1,26 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   exception.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/04 22:51:05 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/04 22:54:30 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "header.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+int		check_exception(int **conditions, int argc)
 {
-	unsigned char	*ptr;
+	int	i;
+	int	j;
 
-	ptr = b;
-	while (len--)
+	i = 0;
+	j = 0;
+	while (i <= 3)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		while (j <= 3)
+		{
+			if (conditions[i][j] < 1 || 4 < conditions[i][j])
+				return (1);
+			j++;
+		}
+		j = 0;
+		i++;
 	}
-	return (b);
+	if (argc != 2)
+	{
+		return (1);
+	}
+	return (0);
 }

@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/05 15:08:04 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/05 15:15:28 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+int		is_num(char c)
 {
-	unsigned char	*ptr;
+	if ('0' <= c && c <= '9')
+		return (1);
+	return (0);
+}
 
-	ptr = b;
-	while (len--)
+int		ft_str_is_numeric(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		if (is_num(str[i++]) != 1)
+			return (0);
 	}
-	return (b);
+	return (1);
 }

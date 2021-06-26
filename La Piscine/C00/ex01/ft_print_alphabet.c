@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_print_alphabet.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/03/28 15:31:55 by younjkim          #+#    #+#             */
+/*   Updated: 2021/03/31 20:34:03 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+void	ft_print_alphabet(void)
 {
-	unsigned char	*ptr;
+	char alpha;
 
-	ptr = b;
-	while (len--)
+	alpha = 'a';
+	while (alpha <= 'z')
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		write(1, &alpha, 1);
+		alpha++;
 	}
-	return (b);
 }

@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/06/12 19:50:12 by younjkim          #+#    #+#             */
+/*   Updated: 2021/06/13 01:18:23 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	ft_putnbr_fd(int n, int fd)
 {
-	unsigned char	*ptr;
+	long	nbr;
+	int		i;
+	char	digit[20];
 
-	ptr = b;
-	while (len--)
+	i = 0;
+	nbr = (long)n;
+	if (n == -2147483648)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		write(fd, "-2147483648", 11);
+		return ;
 	}
-	return (b);
+	if (n == 0)
+		write(fd, "0", 1);
+	if (n < 0)
+	{
+		nbr = nbr * (-1);
+		write(fd, "-", 1);
+	}
+	while (nbr)
+	{
+		digit[i++] = ((nbr % 10) + '0');
+		nbr /= 10;
+	}
+	while (--i >= 0)
+		write(fd, &digit[i], 1);
 }

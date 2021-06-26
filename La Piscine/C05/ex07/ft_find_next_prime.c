@@ -1,26 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_find_next_prime.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/12 16:51:23 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/12 17:11:42 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+int		ft_is_prime(int nb)
 {
-	unsigned char	*ptr;
+	long long i;
 
-	ptr = b;
-	while (len--)
+	if (nb <= 1)
+		return (0);
+	if (nb <= 3)
+		return (1);
+	if (nb % 2 == 0 || nb % 3 == 0)
+		return (0);
+	i = 5;
+	while (i * i <= nb)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		if (nb % i == 0 || nb % (i + 2) == 0)
+			return (0);
+		i += 6;
 	}
-	return (b);
+	return (1);
+}
+
+int		ft_find_next_prime(int nb)
+{
+	long long i;
+
+	i = nb;
+	while (!ft_is_prime(i))
+		i++;
+	return (i);
 }

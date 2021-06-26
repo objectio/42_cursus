@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/04 22:55:48 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/04 22:56:15 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "header.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	free_memory(int **conditions, int *answer)
 {
-	unsigned char	*ptr;
+	int	i;
 
-	ptr = b;
-	while (len--)
+	free(conditions);
+	i = 0;
+	while (i < 4)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		free(conditions[i++]);
 	}
-	return (b);
+	free(answer);
 }

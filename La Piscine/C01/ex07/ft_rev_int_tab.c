@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_rev_int_tab.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/03 11:27:17 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/03 13:38:19 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+void	ft_rev_int_tab(int *tab, int size)
 {
-	unsigned char	*ptr;
+	int i;
+	int temp;
 
-	ptr = b;
-	while (len--)
+	i = 0;
+	while (i < size / 2)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		temp = tab[size - 1 - i];
+		tab[size - 1 - i] = tab[i];
+		tab[i] = temp;
+		i++;
 	}
-	return (b);
 }

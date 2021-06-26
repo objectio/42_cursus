@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/06/12 10:24:39 by younjkim          #+#    #+#             */
+/*   Updated: 2021/06/12 10:26:02 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	unsigned char	*ptr;
+	size_t	i;
+	size_t	len_s;
+	char	*ret;
 
-	ptr = b;
-	while (len--)
+	if (!s)
+		return (0);
+	if (!(ret = (char*)malloc(sizeof(char) * len + 1)))
+		return (0);
+	len_s = ft_strlen(s);
+	i = 0;
+	while (i < len && start + i < len_s)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		ret[i] = s[start + i];
+		i++;
 	}
-	return (b);
+	ret[i] = 0;
+	return (ret);
 }

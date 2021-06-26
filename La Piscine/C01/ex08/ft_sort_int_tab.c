@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_sort_int_tab.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/03 13:41:42 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/03 13:52:51 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+void	ft_sort_int_tab(int *tab, int size)
 {
-	unsigned char	*ptr;
+	int i;
+	int j;
+	int temp;
 
-	ptr = b;
-	while (len--)
+	i = 0;
+	while (i++ < size)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		j = 0;
+		while (++j < size)
+		{
+			if (tab[j - 1] > tab[j])
+			{
+				temp = tab[j - 1];
+				tab[j - 1] = tab[j];
+				tab[j] = temp;
+			}
+		}
 	}
-	return (b);
 }

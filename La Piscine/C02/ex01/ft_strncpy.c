@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/03 14:12:08 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/03 14:35:33 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
-	unsigned char	*ptr;
+	unsigned int i;
 
-	ptr = b;
-	while (len--)
+	i = 0;
+	while (src[i] && i < n)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		dest[i] = src[i];
+		i++;
 	}
-	return (b);
+	while (i < n)
+		dest[i++] = '\0';
+	return (dest);
 }

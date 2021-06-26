@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_boolean.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/14 00:07:36 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/14 00:33:44 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_BOOLEAN_H
+# define FT_BOOLEAN_H
 
-void	*ft_memset(void *b, int c, size_t len)
-{
-	unsigned char	*ptr;
+# include <unistd.h>
 
-	ptr = b;
-	while (len--)
-	{
-		*ptr = (unsigned char)c;
-		ptr++;
-	}
-	return (b);
-}
+# define TRUE 1
+# define FALSE 0
+# define SUCCESS 0
+# define EVEN_MSG "I have an even number of arguments.\n"
+# define ODD_MSG "I have an odd number of arguments.\n"
+
+# define EVEN(nbr) (nbr % 2 == 0)
+
+typedef int		t_bool;
+
+#endif

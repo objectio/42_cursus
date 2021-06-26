@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/10 15:55:19 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/12 01:36:57 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+int		ft_sqrt(int nb)
 {
-	unsigned char	*ptr;
+	long long i;
 
-	ptr = b;
-	while (len--)
-	{
-		*ptr = (unsigned char)c;
-		ptr++;
-	}
-	return (b);
+	if (nb <= 0)
+		return (0);
+	i = 1;
+	while (i * i < nb)
+		i++;
+	if (i * i == nb)
+		return (i);
+	return (0);
 }

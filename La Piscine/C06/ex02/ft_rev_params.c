@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_rev_params.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/10 19:41:55 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/10 21:27:37 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+int		main(int argc, char **argv)
 {
-	unsigned char	*ptr;
-
-	ptr = b;
-	while (len--)
+	while (--argc)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		while (*argv[argc])
+		{
+			write(1, argv[argc], 1);
+			argv[argc]++;
+		}
+		write(1, "\n", 1);
 	}
-	return (b);
+	return (0);
 }

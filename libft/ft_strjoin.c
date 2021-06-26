@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/06/12 09:45:56 by younjkim          #+#    #+#             */
+/*   Updated: 2021/06/12 10:07:46 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned char	*ptr;
+	size_t	len_s1;
+	size_t	len_s2;
+	char	*ret;
 
-	ptr = b;
-	while (len--)
-	{
-		*ptr = (unsigned char)c;
-		ptr++;
-	}
-	return (b);
+	if (!s1 || !s2)
+		return (0);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	if (!(ret = (char*)malloc(sizeof(char) * (len_s1 + len_s2 + 1))))
+		return (0);
+	ft_memcpy(ret, s1, len_s1);
+	ft_memcpy(ret + len_s1, s2, len_s2);
+	ret[len_s1 + len_s2] = 0;
+	return (ret);
 }

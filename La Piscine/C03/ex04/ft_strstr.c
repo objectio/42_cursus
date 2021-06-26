@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/07 00:35:47 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/07 02:16:51 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+char	*ft_strstr(char *str, char *to_find)
 {
-	unsigned char	*ptr;
+	char *ptr;
+	char *s1;
+	char *s2;
 
-	ptr = b;
-	while (len--)
+	ptr = str;
+	if (!*to_find)
+		return (str);
+	while (*ptr)
 	{
-		*ptr = (unsigned char)c;
+		s1 = ptr;
+		s2 = to_find;
+		while (*s1 && *s2 && *s1 == *s2)
+		{
+			s1++;
+			s2++;
+		}
+		if (!*s2)
+			return (ptr);
 		ptr++;
 	}
-	return (b);
+	return (0);
 }

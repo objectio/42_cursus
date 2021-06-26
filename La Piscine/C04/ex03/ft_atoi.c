@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/08 17:06:41 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/08 17:41:38 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+int		ft_atoi(char *str)
 {
-	unsigned char	*ptr;
+	int n;
+	int sign;
 
-	ptr = b;
-	while (len--)
+	n = 0;
+	sign = 1;
+	while (*str == ' ' || *str == '\n' || *str == '\t'
+			|| *str == '\v' || *str == '\f' || *str == '\r')
+		str++;
+	while (*str == '+' || *str == '-')
+		if (*(str++) == '-')
+			sign *= -1;
+	while ('0' <= *str && *str <= '9')
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		n *= 10;
+		n += (sign * (*str - '0'));
+		str++;
 	}
-	return (b);
+	return (n);
 }

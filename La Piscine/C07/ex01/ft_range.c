@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_range.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/12 18:12:32 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/12 19:03:33 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+int		*ft_range(int min, int max)
 {
-	unsigned char	*ptr;
+	int *dest;
+	int len;
+	int i;
 
-	ptr = b;
-	while (len--)
+	if (min >= max)
+		return (NULL);
+	len = max - min;
+	dest = (int *)malloc(sizeof(int) * len);
+	i = 0;
+	while (i < len)
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		dest[i] = min + i;
+		i++;
 	}
-	return (b);
+	return (dest);
 }

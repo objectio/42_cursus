@@ -1,0 +1,1 @@
+cat /etc/passwd | sed '/#/d' | awk '{if (NR%2==0) print}' | cut -d ':' -f1 | rev | sort -r | awk -v first=$FT_LINE1 -v last=$FT_LINE2 'NR==first,NR==last' | tr '\n' ',' | sed 's/,/, /g' | sed 's/, $/./' | tr -d '\n'

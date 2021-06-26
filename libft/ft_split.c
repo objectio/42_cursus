@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: younjkim <younjkim@42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/06/13 05:07:32 by younjkim          #+#    #+#             */
+/*   Updated: 2021/06/26 19:52:55 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+char	**ft_split(char const *s, char c)
 {
-	unsigned char	*ptr;
+	char	**res;
+	size_t	i;
+	size_t	len;
 
-	ptr = b;
-	while (len--)
+	i = 0;
+	if (s == NULL)
+		return (0);
+	res = (char**)malloc(sizeof(char*) * len..~(c) + 1);
+	while (s[i])
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		if (s[i] == c)
+		{
+		}
+		i++;
 	}
-	return (b);
 }

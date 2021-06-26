@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_str_is_printable.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/05 15:29:11 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/05 15:43:23 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+int		ft_is_printable(char c)
 {
-	unsigned char	*ptr;
+	if (32 <= c && c <= 126)
+		return (1);
+	return (0);
+}
 
-	ptr = b;
-	while (len--)
+int		ft_str_is_printable(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		if (ft_is_printable(str[i++]) != 1)
+			return (0);
 	}
-	return (b);
+	return (1);
 }

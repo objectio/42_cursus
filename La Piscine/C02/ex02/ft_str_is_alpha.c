@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_str_is_alpha.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/03 14:46:12 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/05 15:06:35 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+int		ft_is_alphabet(char c)
 {
-	unsigned char	*ptr;
+	if ('a' <= c && c <= 'z')
+		return (1);
+	if ('A' <= c && c <= 'Z')
+		return (1);
+	return (0);
+}
 
-	ptr = b;
-	while (len--)
+int		ft_str_is_alpha(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		if (ft_is_alphabet(str[i++]) != 1)
+			return (0);
 	}
-	return (b);
+	return (1);
 }

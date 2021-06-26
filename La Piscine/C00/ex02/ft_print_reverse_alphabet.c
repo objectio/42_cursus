@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_print_reverse_alphabet.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/03/28 17:02:52 by younjkim          #+#    #+#             */
+/*   Updated: 2021/03/31 20:33:44 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+void	ft_print_reverse_alphabet(void)
 {
-	unsigned char	*ptr;
+	char alpha;
 
-	ptr = b;
-	while (len--)
+	alpha = 'z';
+	while (alpha >= 'a')
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		write(1, &alpha, 1);
+		alpha--;
 	}
-	return (b);
 }

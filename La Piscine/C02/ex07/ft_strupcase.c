@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strupcase.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 17:51:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/06/12 13:57:47 by younjkim         ###   ########.fr       */
+/*   Created: 2021/04/05 15:46:50 by younjkim          #+#    #+#             */
+/*   Updated: 2021/04/05 16:15:55 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+char		*ft_strupcase(char *str)
 {
-	unsigned char	*ptr;
+	int i;
 
-	ptr = b;
-	while (len--)
+	i = 0;
+	while (str[i])
 	{
-		*ptr = (unsigned char)c;
-		ptr++;
+		if ('a' <= str[i] && str[i] <= 'z')
+			str[i] = str[i] - 32;
+		i++;
 	}
-	return (b);
+	return (str);
 }

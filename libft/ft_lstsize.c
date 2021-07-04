@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/12 22:23:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/07/04 18:20:34 by younjkim         ###   ########.fr       */
+/*   Created: 2021/07/04 15:00:57 by younjkim          #+#    #+#             */
+/*   Updated: 2021/07/04 15:56:34 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+int		ft_lstsize(t_list *lst)
 {
-	long	i;
-	long	num;
-	long	sign;
+	int	i;
 
 	i = 0;
-	sign = 1;
-	while ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-')
-		sign = -1;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	num = 0;
-	while (ft_isdigit(str[i]) == 1)
+	while (lst)
 	{
-		num = 10 * num + (str[i] - '0');
+		lst = lst->next;
 		i++;
 	}
-	return (num * sign);
+	return (i);
 }

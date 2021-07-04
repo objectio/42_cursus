@@ -1,24 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/12 19:17:46 by younjkim          #+#    #+#             */
-/*   Updated: 2021/07/04 17:52:12 by younjkim         ###   ########.fr       */
+/*   Created: 2021/07/04 14:57:40 by younjkim          #+#    #+#             */
+/*   Updated: 2021/07/04 15:56:43 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), \
+		void (*del)(void *))
 {
-	void	*ptr;
+	t_list	*x;
+	t_list	*new;
 
-	ptr = malloc(count * size);
-	if (!(ptr))
+	if (!lst)
 		return (NULL);
-	ft_bzero(ptr, count * size);
-	return (ptr);
+	new = ft_lstnew(f(lst->content));
+	if (!(new))
+		return (NULL);
+	x = new;
+	while (lst)
+	{
+		if (lst->next)
+		{
+			new->next = ft_lstnew(f(lst->next->content));
+			if (!(new->next))
+			{
+				ft_lstclear(&new, del);
+				return (NULL);
+			}
+			new = new->next;
+		}
+		lst = lst->next;
+	}
+	new->next = NULL;
+	return (x);
 }

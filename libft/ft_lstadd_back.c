@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/12 22:23:26 by younjkim          #+#    #+#             */
-/*   Updated: 2021/07/04 18:20:34 by younjkim         ###   ########.fr       */
+/*   Created: 2021/07/04 15:04:49 by younjkim          #+#    #+#             */
+/*   Updated: 2021/07/04 15:56:26 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	long	i;
-	long	num;
-	long	sign;
+	t_list *i;
 
-	i = 0;
-	sign = 1;
-	while ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-')
-		sign = -1;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	num = 0;
-	while (ft_isdigit(str[i]) == 1)
+	if (!*lst)
 	{
-		num = 10 * num + (str[i] - '0');
-		i++;
+		*lst = new;
+		return ;
 	}
-	return (num * sign);
+	i = *lst;
+	while (i->next)
+	{
+		i = i->next;
+	}
+	i->next = new;
 }

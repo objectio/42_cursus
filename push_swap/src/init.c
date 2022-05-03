@@ -6,15 +6,15 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 20:07:12 by younjkim          #+#    #+#             */
-/*   Updated: 2022/04/16 21:06:23 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/04/23 13:33:48 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	is_int(char *n)
+static int	check_n(char *n)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (n[i] == '-')
@@ -25,15 +25,15 @@ static int	is_int(char *n)
 			return (0);
 		i++;
 	}
-	if (ft_atoi(n) < 2147483648 && ft_atoi(n) >= -2147483648)
+	if (ft_atoi(n) < 2147483648 && ft_atoi(n) > -2147483648)
 		return (1);
 	return (0);
 }
 
-static int	is_repeat(char **argv, char *s)
+static int	check_non_repeated(char **argv, char *s)
 {
-	int		count;
-	int		i;
+	int	count;
+	int	i;
 
 	count = 0;
 	i = 1;
@@ -50,12 +50,12 @@ static int	is_repeat(char **argv, char *s)
 
 static void	init_stack_a(t_ps *data, char **argv)
 {
-	int		i;
+	int	i;
 
 	data->a = (char **)malloc(sizeof(char *) * (data->argc));
 	data->b = (char **)malloc(sizeof(char *));
 	if (!data->a || !data->b)
-		error("Err");
+		error("Error: Failed stack malloc\n");
 	i = 1;
 	while (argv[i])
 	{
@@ -73,8 +73,8 @@ int	check_argv(t_ps *data, char **argv)
 	i = 1;
 	while (argv[i] != NULL)
 	{
-		if (!is_int(argv[i]) || !is_repeat(argv, argv[i]))
-			stderr("Error\n");
+		if (!check_n(argv[i]) || !check_non_repeated(argv, argv[i]))
+			error("Error\n");
 		i++;
 	}
 	init_stack_a(data, argv);

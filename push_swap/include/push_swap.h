@@ -6,16 +6,17 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 18:28:38 by younjkim          #+#    #+#             */
-/*   Updated: 2022/04/16 18:04:13 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/04/23 13:37:44 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# include "libft.h"
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <limits.h>
 
 typedef struct s_ps
@@ -27,6 +28,8 @@ typedef struct s_ps
 }	t_ps;
 
 void	sa(t_ps *data);
+void	sb(t_ps *data);
+void	ss(t_ps *data);
 void	ra(t_ps *data, int mode);
 void	rb(t_ps *data, int mode);
 void	rr(t_ps *data);
@@ -46,9 +49,5 @@ int		find_big(t_ps *data);
 int		is_solved(t_ps *data);
 int		check_argv(t_ps *data, char **argv);
 int		rev_sort(t_ps *data);
-
-// utils function
-char	*ft_strdup(char *s1);
-char	*ft_itoa(int n);
 
 #endif

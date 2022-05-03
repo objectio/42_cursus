@@ -6,32 +6,52 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 18:28:08 by younjkim          #+#    #+#             */
-/*   Updated: 2022/04/16 21:12:09 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/04/23 13:21:58 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int
-
-static void push_swap(t_ps *data)
+static void	free_data(t_ps *data)
 {
-	if (check_solve(data) == 1)
+	free(data->aint);
+	free(data->a);
+	free(data->b);
+	free(data);
+}
+
+static int	check_solved(t_ps *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->a[i] != NULL && data->a[i + 1] != NULL)
+	{
+		if (ft_atoi(data->a[i]) > ft_atoi(data->a[i + 1]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static void	push_swap(t_ps *data)
+{
+	if (check_solved(data) == 1)
 		return ;
 	if (data->argc < 4)
 		sa(data);
 	else if (data->argc < 5)
-		easy(data);
+		solve_easy(data);
 	else if (data->argc < 7)
-		mid(data);
+		solve_med(data);
 	else
-		hard(data);
+		solve_hard(data);
 	free_data(data);
 }
 
 int	main(int argc, char **argv)
 {
-    t_ps	*data;
+	t_ps	*data;
 
 	if (argc == 1)
 		return (0);

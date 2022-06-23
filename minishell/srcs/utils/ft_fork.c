@@ -6,12 +6,13 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:22:24 by younjkim          #+#    #+#             */
-/*   Updated: 2022/06/21 19:32:40 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/06/23 17:53:28 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/* nchild 개수 (파이프로 분할된 명령어들 개수) 만큼 pipes에 할당함 */
 static void	ft_alloc(t_shell *shell)
 {
 	int	i;
@@ -29,6 +30,7 @@ static void	ft_alloc(t_shell *shell)
 	pipe(shell->fd[1]);
 }
 
+// 
 static void	ft_close(t_shell *shell, int j)
 {
 	int	i;
@@ -54,7 +56,7 @@ static void	ft_exe(t_shell *shell, int id, char *temp)
 
 	ft_memset(&redi, 0, sizeof(redi));
 	rl_catch_signals = 1;
-	shell->split = ft_split_mini(shell->pipes[id], &redi);
+	shell->split = ft_split_mini(shell->pipes[id], &redi); // pipes 로 분할된 애들을 토큰단위로 분할시키고 따옴표 안의 환경변수 처리.
 	shell->split = ft_redirections(shell->split, &redi, shell);
 	if (!shell->split)
 		exit (1);

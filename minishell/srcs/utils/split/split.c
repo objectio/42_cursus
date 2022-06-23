@@ -6,7 +6,7 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:12:37 by younjkim          #+#    #+#             */
-/*   Updated: 2022/06/23 14:26:21 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/06/23 17:52:48 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,17 @@ char	**ft_split_mini(char *str, t_redi *redi)
 
 	if (!str)
 		return (NULL);
-	i = ft_getstr(str, 0, 0, 0);
+	i = ft_getstr(str, 0, 0, 0); // 명령 하나에 토큰이 몇개 있는지 세서 반환.
 	if (i == -1)
 		return (NULL);
 	s1 = malloc((i + 1) * sizeof(char *));
 	if (!s1)
 		return (NULL);
 	s1[i] = NULL;
-	ft_createstr(s1, i, str, 0);
+	ft_createstr(s1, i, str, 0); // 토큰들을 s1에 저장.
 	if (redi)
-		ft_posredi(s1, redi);
-	s2 = ft_quote_control(s1);
+		ft_posredi(s1, redi); // redi->rpos에 리다이렉션 표시들 위치를 저장
+	s2 = ft_quote_control(s1);  // 따옴표 안에 환경변수들 처리 완료. 순수한 문자열들이 s2에 담김.
 	ft_double_free(s1);
 	return (s2);
 }

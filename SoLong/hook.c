@@ -6,7 +6,7 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 21:23:09 by younjkim          #+#    #+#             */
-/*   Updated: 2022/03/27 21:23:15 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/05/14 20:50:44 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	ft_move(int keycode, t_game *g)
 {
 	if (keycode == 53)
 		exit(0);
-	if (keycode == 2)
+	else if (keycode == 2)
 		ft_move_right(g);
-	if (keycode == 1)
+	else if (keycode == 1)
 		ft_move_down(g);
-	if (keycode == 0)
+	else if (keycode == 0)
 		ft_move_left(g);
-	if (keycode == 13)
+	else if (keycode == 13)
 		ft_move_up(g);
 	ft_print_step(g);
 	return (1);

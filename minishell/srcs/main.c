@@ -6,7 +6,7 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:16:46 by younjkim          #+#    #+#             */
-/*   Updated: 2022/06/21 19:40:51 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/06/24 16:32:16 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	ft_check(const char *s, int *i, int *k)
 			*i = *i - 1;
 			break ;
 		}
-		if (*k == 3)
+		if (*k == 3) // <<< 또는 >>>인지 체크
 		{
 			printf("minishell: parse error\n");
 			return (1);
@@ -84,7 +84,7 @@ static int	ft_check(const char *s, int *i, int *k)
 	return (0);
 }
 
-static int	ft_redierror(const char *s)
+static int	ft_redierror(const char *s) // 리디렉션이 세개 들어오면 예외처리
 {
 	int		i;
 	int		k;
@@ -93,7 +93,7 @@ static int	ft_redierror(const char *s)
 	i = -1;
 	while (s && s[++i])
 	{
-		if (s[i] && (s[i] == '\'' || s[i] == '\"'))
+		if (s[i] && (s[i] == '\'' || s[i] == '\"')) // 따옴표 체크
 		{
 			c = s[i];
 			i++;
@@ -103,7 +103,7 @@ static int	ft_redierror(const char *s)
 		if (s[i] && (s[i] == '<' || s[i] == '>'))
 		{
 			k = 0;
-			if (ft_check(s, (int *)&i, (int *)&k) == 1)
+			if (ft_check(s, (int *)&i, (int *)&k) == 1) // <<< 또는 >>> 이면 return
 				return (1);
 		}
 		if (s[i] == 0)

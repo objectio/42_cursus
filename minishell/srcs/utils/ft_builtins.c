@@ -6,13 +6,13 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 14:59:44 by younjkim          #+#    #+#             */
-/*   Updated: 2022/06/21 19:42:25 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/06/24 11:05:21 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_checkchild(char **pipe)
+int	ft_checkchild(char **pipe) // 자식 프로세스에서 실행시키는 커맨드, 일치하면 0 반환, 다르면 1
 {
 	if (!ft_strcmp(pipe[0], "cd"))
 		return (0);
@@ -27,7 +27,7 @@ int	ft_checkchild(char **pipe)
 	return (1);
 }
 
-int	ft_checkparent(char **pipe)
+int	ft_checkparent(char **pipe)  // 부모 프로세스에서 실행시키는 커맨드, 일치하면 0 반환, 다르면 1
 {
 	if (!ft_strcmp(pipe[0], "cd"))
 		return (0);

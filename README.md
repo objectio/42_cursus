@@ -1,6 +1,6 @@
 ###  🔮 42 cursus Curriculum
 
-| Circle | Project | ubmit | Evaluation | Details | Finish Date |
+| Circle | Project | Submit | Evaluation | Details | Finish Date |
 | :-: | ------ | :--: | :--: |----------- | :------: |
 | 0 | Libft | ☑️ | ☑️ | 나만의 C 라이브러리 만들기 | 21-07-04 |
 | 1 | get_next_line | ☑️ | ☑️ | 한 줄씩 읽고 반환하는 함수 구현 | 21-11-29 |

@@ -8,9 +8,11 @@ namespace ft
 {
     
 	template <class _T, class _Allocator = std::allocator<_T> >
-	class _vector {
-		
-	}
+	class vector {
+		vector() {}
+		~vector() {}
+		vector& operator=(const vector& v);
+	};
 
 }
 

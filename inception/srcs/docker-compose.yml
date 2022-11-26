@@ -1,5 +1,6 @@
 version: "3.9"
 
+<<<<<<< HEAD
 services:
  db:
   image: mysql:5.7
@@ -29,3 +30,39 @@ services:
 volumes:
  db_data: {}
  wordpress_data: {}
+=======
+volumes:
+ data: {}
+services:
+ mariadb:
+  image: debian:buster
+  restart: always
+  expose:
+   - "3306"
+  networks:
+   - intra
+  tty: true
+ nginx:
+  image: debian:buster
+  restart: always
+  ports:
+   - "443:443"
+  volumes:
+   - data:/var/www/html
+  networks:
+   - intra
+  tty: true
+ wordpress:
+  image: debian:buster
+  restart: always
+  volumes:
+   - data:/var/www/html
+  expose:
+   - "9000"
+  networks:
+   - intra
+  tty: true
+networks:
+ intra:
+  driver: bridge
+>>>>>>> 406e8d4 ([ENV] setting upload)

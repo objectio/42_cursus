@@ -50,6 +50,7 @@ volumes:
       type: 'none'
       o: 'bind'
       device: ${VOLPATH}/mariadb
+      
   volume-wordpress:
     driver: local
     driver_opts:

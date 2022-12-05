@@ -6,8 +6,6 @@ then
 	echo "wordpress already downloaded"
 else
 
-####### MANDATORY PART ##########
-
 	#Download wordpress and all config file
 	wget http://wordpress.org/latest.tar.gz
 	tar xfz latest.tar.gz
@@ -21,7 +19,6 @@ else
 	sed -i "s/localhost/$MYSQL_HOSTNAME/g" wp-config-sample.php
 	sed -i "s/database_name_here/$MYSQL_DATABASE/g" wp-config-sample.php
 	cp wp-config-sample.php wp-config.php
-###################################
 
 fi
 

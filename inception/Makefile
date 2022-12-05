@@ -1,24 +1,13 @@
+all:
+	@docker compose -f ./srcs/docker-compose.yml up -d --build --remove-orphans
 
-NAME = inception
+down:
+	@docker compose -f ./srcs/docker-compose.yml down
 
-all: clean setup build
+re:
+	@docker compose -f ./srcs/docker-compose.yml up -d --build
 
-setup:
-	cd ./srcs/requirements/tools && sudo bash pre_work.sh
+clean:
+	@docker compose -f ./srcs/docker-compose.yml down --rmi all
 
-build:
-	cd ./srcs/ && docker-compose up --build ;
-
-stop:
-	cd ./srcs/ && docker-compose down;
-
-volrm:
-	cd ./srcs/ && docker volume prune;
-
-clean: stop
-	cd ./srcs/ && docker system prune -a;
-
-fclean: clean
-	sudo rm -rf ~/data/;
-
-.PHONY: setup build stop volrm clean fclean all
+.PHONY: all re down clean

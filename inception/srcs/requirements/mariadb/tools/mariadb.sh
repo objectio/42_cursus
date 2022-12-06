@@ -14,16 +14,7 @@ else
 
 # Set root option so that connexion without root password is not possible
 
-mysql_secure_installation << _EOF_
-
-Y
-root4life
-root4life
-Y
-n
-Y
-Y
-_EOF_
+echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD');" 
 
 #Add a root user on 127.0.0.1 to allow remote connexion 
 #Flush privileges allow to your sql tables to be updated automatically when you modify it

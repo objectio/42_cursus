@@ -1,13 +1,21 @@
 all:
-	@docker compose -f ./srcs/docker-compose.yml up -d --build --remove-orphans
+	@sudo mkdir ~/data
+	@sudo mkdir ~/data/mysql ~/data/wordpress 
+	@sudo docker compose -f ./srcs/docker-compose.yml up -d --build --remove-orphans
 
 down:
-	@docker compose -f ./srcs/docker-compose.yml down
+	@sudo docker compose -f ./srcs/docker-compose.yml down
 
 re:
-	@docker compose -f ./srcs/docker-compose.yml up -d --build
+	@sudo docker compose -f ./srcs/docker-compose.yml up -d --build
 
 clean:
-	@docker compose -f ./srcs/docker-compose.yml down --rmi all
+	@sudo docker compose -f ./srcs/docker-compose.yml down --rmi all
 
-.PHONY: all re down clean
+fclean: clean
+	sudo rm -rf $(HOME)/data
+	sudo docker network prune -f
+	sudo docker volume prune -f 
+	sudo docker image prune -a -f
+
+.PHONY: all re down clean fclean

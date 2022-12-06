@@ -1,6 +1,6 @@
 all:
-	@sudo mkdir ~/data
-	@sudo mkdir ~/data/mysql ~/data/wordpress 
+	@sudo mkdir -p ~/data
+	@sudo mkdir -p ~/data/mysql ~/data/wordpress 
 	@sudo docker compose -f ./srcs/docker-compose.yml up -d --build --remove-orphans
 
 down:
@@ -10,7 +10,7 @@ re:
 	@sudo docker compose -f ./srcs/docker-compose.yml up -d --build
 
 clean:
-	@sudo docker compose -f ./srcs/docker-compose.yml down --rmi all
+	@sudo docker compose -f ./srcs/docker-compose.yml down -v --rmi all
 
 fclean: clean
 	sudo rm -rf $(HOME)/data

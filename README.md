@@ -15,7 +15,7 @@
 | 4 | CPP Module | ☑️ | ☑️ | C++98 언어를 이용한 문제 해결 및 개념 응용 연습 | 22-08-23 |
 | 4 | Cub3D | ☑️ | ☑️ | ray-casting을 이용한 3D 게임 구현 | 22-09-11 |
 | 5 | Inception | ☑️ | ☑️ | Docker를 통해 간단한 웹페이지 구성 | 22-12-06 |
-| 5 | webserv | 💬 |  | HTTP 서버 구축 |  |
+| 5 | webserv | 💬 |  | 멀티플렉싱 HTTP 웹서버 구축 |  |
 | 5 | ft_container |  |  |  |  |
 | 6 | ft_transcendence |  |  |  |  |
 

@@ -6,7 +6,7 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 21:32:40 by younjkim          #+#    #+#             */
-/*   Updated: 2022/09/27 21:33:23 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:27:26 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include <map.hpp>
-	#include <stack.hpp>
-	#include <vector.hpp>
+	#include "map.hpp"
+	#include "stack.hpp"
+	#include "vector.hpp"
 #endif
 
 #include <stdlib.h>

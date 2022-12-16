@@ -57,6 +57,12 @@ namespace ft
 		T* p;
 
 		public:
+		typedef Iterator;
+		typedef iterator_traits<Iterator *>::difference_type	difference_type;
+		typedef iterator_traits<Iterator *>::value_type			value_type;
+		typedef iterator_traits<Iterator *>::pointer			pointer;
+		
+
 		random_access_iterator(T* t) : p(t) {}
 		random_access_iterator(const T& t) : p(t.p) {}
 		~random_access_iterator() {}

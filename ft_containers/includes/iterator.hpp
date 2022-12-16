@@ -51,6 +51,7 @@ namespace ft
 	typedef random_access_iterator_tag		iterator_category;
   };
 
+	template <class Iterator>
 	class random_access_iterator : public ft::iterator<random_access_iterator_tag, T>
 	{
 		T* p;

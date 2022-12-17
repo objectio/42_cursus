@@ -1,6 +1,13 @@
+/***********************************************************************
+
+ * is_integral
+ * enable_if
+
+***********************************************************************/
+
 #ifndef TYPE_TRAITS_HPP
 #define TYPE_TRAITS_HPP
 
-#include "includes/containers.hpp"
+#include "containers.hpp"
 
 #endif

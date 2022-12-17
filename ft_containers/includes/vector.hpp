@@ -28,7 +28,7 @@ namespace ft
 		explicit _vector (const _Alloc& alloc = allocator_type());
 		explicit _vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
 		template <class InputIterator> _vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-		_vector (const vector& x);
+		_vector (const _vector& x);
 
 		~_vector();
 		_vector& operator=(const _vector& v);

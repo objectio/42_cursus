@@ -1,6 +1,8 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
+#include "containers.hpp"
+
 #include <cstddef>
 
 namespace ft 
@@ -26,11 +28,11 @@ namespace ft
 
   template <class Iterator> 
   class iterator_traits {
-	typedef Iterator::difference_type	difference_type;
-	typedef Iterator::value_type		value_type;
-	typedef Iterator::pointer			pointer;
-	typedef Iterator::reference			reference;
-	typedef Iterator::iterator_category	iterator_category;
+	typedef typename Iterator::difference_type		difference_type;
+	typedef typename Iterator::value_type			value_type;
+	typedef typename Iterator::pointer				pointer;
+	typedef typename Iterator::reference			reference;
+	typedef typename Iterator::iterator_category	iterator_category;
   };
 
   template <class T> 
@@ -50,41 +52,6 @@ namespace ft
 	typedef const T&						reference;
 	typedef random_access_iterator_tag		iterator_category;
   };
-
-	template <class Iterator>
-	class random_access_iterator : public ft::iterator<random_access_iterator_tag, T>
-	{
-		T* p;
-
-		public:
-		typedef Iterator;
-		typedef iterator_traits<Iterator *>::difference_type	difference_type;
-		typedef iterator_traits<Iterator *>::value_type			value_type;
-		typedef iterator_traits<Iterator *>::pointer			pointer;
-		
-
-		random_access_iterator(T* t) : p(t) {}
-		random_access_iterator(const T& t) : p(t.p) {}
-		~random_access_iterator() {}
-		random_access_iterator& operator++() {
-			++p;
-			return *this;
-		}
-		random_access_iterator operator++(T) {
-			random_access_iterator tmp(*this);
-			operator++();
-			return tmp;
-		}
-		bool operator==(const random_access_iterator& rhs) const {
-			return p == rhs.p;
-		}
-		bool operator!=(const random_access_iterator& rhs) const {
-			return p != rhs.p;
-		}
-		T& operator*() {
-			return *p;
-		}
-	};
 }
 
 #endif

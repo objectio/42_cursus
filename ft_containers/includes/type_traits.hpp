@@ -59,6 +59,9 @@ namespace ft
 
 	template <>
 	struct is_integral<unsigned int> : public ft::integral_constant<bool, true> {};
+
+	template <>
+	struct is_integral<unsigned long int> : public ft::integral_constant<bool, true> {};
 }
 
 #endif

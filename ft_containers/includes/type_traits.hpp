@@ -63,7 +63,7 @@ namespace ft
 	template <>
 	struct is_integral<unsigned long int> : public ft::integral_constant<bool, true> {};
 
-	template <bool Cond, class T = void> struct enable_if {};
+	template<bool Cond, class T = void> struct enable_if {};
 
 	template<class T> struct enable_if<true, T> { typedef T type; };
 }

@@ -68,12 +68,16 @@ namespace ft
 	  	iterator_type current;
 
 	  public:
-		reverse_iterator();
+		reverse_iterator() : current() {}
 		
-		explicit reverse_iterator (iterator_type it);
+		explicit reverse_iterator (iterator_type it) : current(it) {}
 		
 		template <class Iter>
-		reverse_iterator (const reverse_iterator<Iter>& rev_it);
+		reverse_iterator (const reverse_iterator<Iter>& rev_it) : current(rev_it.base()) {}
+
+		iterator_type base() const {
+			return current;
+		}
   };
 }
 

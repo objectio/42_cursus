@@ -99,7 +99,7 @@ namespace ft
 		reverse_iterator operator++(int) {
 			reverse_iterator tmp = *this;
 			--current;
-			return (*this);
+			return (tmp);
 		}
   };
 }

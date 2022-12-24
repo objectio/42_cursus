@@ -80,6 +80,27 @@ namespace ft
 		iterator_type base() const {
 			return current;
 		}
+
+		reference operator*() const {
+			iterator_type tmp = current;
+			--tmp;
+			return (*tmp);
+		}
+
+		reverse_iterator operator+ (difference_type n) const {
+			return (reverse_iterator(current - n));
+		}
+
+		reverse_iterator& operator++() {
+			--current;
+			return (*this);
+		}
+
+		reverse_iterator operator++(int) {
+			reverse_iterator tmp = *this;
+			--current;
+			return (*this);
+		}
   };
 }
 

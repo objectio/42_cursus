@@ -101,6 +101,11 @@ namespace ft
 			--current;
 			return (tmp);
 		}
+
+		reverse_iterator& operator+= (difference_type n) {
+			current -= n;
+			return (*this);
+		}
   };
 }
 

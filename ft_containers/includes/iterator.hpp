@@ -135,6 +135,36 @@ namespace ft
 			return (*(*this + n));
 		}
   };
+
+  template <class Iterator>
+  bool operator== (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
+	return (lhs.base() == rhs.base());
+  }
+
+  template <class Iterator>
+  bool operator!= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
+	return (lhs.base() != rhs.base());
+  }
+
+  template <class Iterator>
+  bool operator< (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
+	return (lhs.base() < rhs.base());
+  }
+
+  template <class Iterator>
+  bool operator<= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
+	return (lhs.base() <= rhs.base());
+  }
+
+  template <class Iterator>
+  bool operator> (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
+	return (lhs.base() > rhs.base());
+  }
+
+  template <class Iterator>
+  bool operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
+	return (lhs.base() >= rhs.base());
+  }
 }
 
 #endif

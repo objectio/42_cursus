@@ -7,12 +7,12 @@
 namespace ft 
 {
     
-	template < class _T, class _Alloc = std::allocator<_T> >  // generic template
-	class _vector {
+	template < class T, class Alloc = std::allocator<T> >  // generic template
+	class vector {
 
 		/* MEMBER TYPES */
-		typedef _T											value_type;
-		typedef _Alloc										allocator_type;
+		typedef T											value_type;
+		typedef Alloc										allocator_type;
 		typedef typename allocator_type::reference			reference;
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef typename allocator_type::pointer			pointer;
@@ -25,13 +25,13 @@ namespace ft
 		typedef typename allocator_type::size_type			size_type;
 
 		/* MEMBER FUNCTIONS */
-		explicit _vector (const _Alloc& alloc = allocator_type());
-		explicit _vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
-		template <class InputIterator> _vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-		_vector (const _vector& x);
+		explicit vector (const Alloc& alloc = allocator_type());
+		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
+		template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+		vector (const vector& x);
 
-		~_vector();
-		_vector& operator=(const _vector& v);
+		~vector();
+		vector& operator=(const _vector& v);
 	};
 
 }

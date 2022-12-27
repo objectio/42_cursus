@@ -53,6 +53,9 @@ namespace ft
 	typedef random_access_iterator_tag		iterator_category;
   };
 
+/*******************
+* reverse_iterator *
+*******************/
   template <class Iterator> 
   class reverse_iterator
   {
@@ -65,7 +68,7 @@ namespace ft
 		typedef typename iterator_traits<Iterator>::reference			reference;
 	
 	  protected:
-	  	iterator_type current;
+		iterator_type current;
 
 	  public:
 		reverse_iterator() : current() {}
@@ -175,7 +178,7 @@ namespace ft
   typename reverse_iterator<Iterator>::difference_type operator- (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
 	return (reverse_iterator(rhs.base() - lhs.base()));
   }
-  
+
 }
 
 #endif

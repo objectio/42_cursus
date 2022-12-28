@@ -6,7 +6,7 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 21:32:40 by younjkim          #+#    #+#             */
-/*   Updated: 2022/12/17 18:01:19 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/12/28 20:39:39 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@
 // 	#include "vector.hpp"
 // #endif
 
+#include "algorithm.hpp"
 #include "iterator.hpp"
+#include "normal_iterator.hpp"
 #include "type_traits.hpp"
 #include "vector.hpp"
-#include "algorithm.hpp"
 
 #include <stdlib.h>
 

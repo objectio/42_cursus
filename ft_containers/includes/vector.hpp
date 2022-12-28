@@ -10,6 +10,7 @@ namespace ft
 	class vector {
 
 		/* MEMBER TYPES */
+		public:
 		typedef T											value_type;
 		typedef Alloc										allocator_type;
 		typedef typename allocator_type::reference			reference;
@@ -20,16 +21,16 @@ namespace ft
 		typedef ft::normal_iterator<const_pointer>			const_iterator;
 		typedef ft::reverse_iterator<iterator>				reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
-		typedef typename allocator_type::difference_type	difference_type;
-		typedef typename allocator_type::size_type			size_type;
+		typedef ptrdiff_t									difference_type;
+		typedef size_t										size_type;
 
 		/* MEMBER FUNCTIONS */
-		explicit vector (const Alloc& alloc = allocator_type());
-		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
-		template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-		vector (const vector& x);
+		// explicit vector (const Alloc& alloc = allocator_type()) {}
+		// explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) {}
+		// template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+		// vector (const vector& x);
 
-		~vector();
+		virtual ~vector();
 		vector& operator=(const vector& v);
 	};
 

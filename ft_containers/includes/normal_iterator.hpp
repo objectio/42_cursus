@@ -82,6 +82,76 @@ namespace ft
 	bool operator== (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
 		return (lhs.base() == rhs.base());
 	}
+
+	template <typename Iterator>
+	bool operator== (const normal_iterator<Iterator>& lhs, const normal_iterator<Iterator>& rhs) {
+		return (lhs.base() == rhs.base());
+	}
+
+	template <typename IteratorL, typename IteratorR>
+	bool operator!= (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
+		return (lhs.base() != rhs.base());
+	}
+
+	template <typename Iterator>
+	bool operator!= (const normal_iterator<Iterator>& lhs, const normal_iterator<Iterator>& rhs) {
+		return (lhs.base() != rhs.base());
+	}
+
+	template <typename IteratorL, typename IteratorR>
+	bool operator< (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
+		return (lhs.base() < rhs.base());
+	}
+
+	template <typename Iterator>
+	bool operator< (const normal_iterator<Iterator>& lhs, const normal_iterator<Iterator>& rhs) {
+		return (lhs.base() < rhs.base());
+	}
+
+	template <typename IteratorL, typename IteratorR>
+	bool operator> (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
+		return (lhs.base() > rhs.base());
+	}
+
+	template <typename Iterator>
+	bool operator> (const normal_iterator<Iterator>& lhs, const normal_iterator<Iterator>& rhs) {
+		return (lhs.base() > rhs.base());
+	}
+
+	template <typename IteratorL, typename IteratorR>
+	bool operator<= (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
+		return (lhs.base() <= rhs.base());
+	}
+
+	template <typename Iterator>
+	bool operator<= (const normal_iterator<Iterator>& lhs, const normal_iterator<Iterator>& rhs) {
+		return (lhs.base() <= rhs.base());
+	}
+
+	template <typename IteratorL, typename IteratorR>
+	bool operator>= (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
+		return (lhs.base() >= rhs.base());
+	}
+
+	template <typename Iterator>
+	bool operator>= (const normal_iterator<Iterator>& lhs, const normal_iterator<Iterator>& rhs) {
+		return (lhs.base() >= rhs.base());
+	}
+
+	template <typename IteratorL, typename IteratorR>
+	typename normal_iterator<IteratorL>::difference_type operator- (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
+		return (lhs.base() - rhs.base());
+	}
+
+	template <typename Iterator>
+	typename normal_iterator<Iterator>::difference_type operator- (const normal_iterator<Iterator>& lhs, const normal_iterator<Iterator>& rhs) {
+		return (lhs.base() - rhs.base());
+	}
+
+	template <typename Iterator>
+	normal_iterator<Iterator> operator+ (typename normal_iterator<Iterator>::difference_type n, const normal_iterator<Iterator>& rev_it) {
+		return (normal_iterator<Iterator>(rev_it.base() + n));
+	}
 }
 
 #endif

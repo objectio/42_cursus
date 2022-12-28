@@ -77,6 +77,11 @@ namespace ft
 			return (current);
 		}
 	};
+
+	template <typename IteratorL, typename IteratorR>
+	bool operator== (const normal_iterator<IteratorL>& lhs, const normal_iterator<IteratorR>& rhs) {
+		return (lhs.base() == rhs.base());
+	}
 }
 
 #endif

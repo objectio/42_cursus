@@ -6,7 +6,7 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 21:30:51 by younjkim          #+#    #+#             */
-/*   Updated: 2022/12/19 23:59:07 by younjkim         ###   ########.fr       */
+/*   Updated: 2022/12/28 20:58:46 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ bool mycomp (char c1, char c2)
 { return std::tolower(c1)<std::tolower(c2); }
 
 template <class T>
-typename ft::enable_if<std::is_integral<T>::value,bool>::type
-  is_odd (T i) {return bool(i%2);}
+typename ft::enable_if<ft::is_integral<T>::value,bool>::type
+is_odd (T i) { return bool(i%2);}
 
 // 2. the second template argument is only valid if T is an integral type:
-template < class T,
-           class = typename ft::enable_if<ft::is_integral<T>::value>::type>
-bool is_even (T i) {return !bool(i%2);}
+template <class T>
+typename ft::enable_if<ft::is_integral<T>::value, bool>::type
+is_even (T i) { return !bool(i%2);}
 
 int main(int argc, char** argv)
 {

@@ -33,9 +33,19 @@ namespace ft
 		pointer			end;
 
 		/* MEMBER FUNCTIONS */
-		// explicit vector (const Alloc& alloc = allocator_type()) {}
-		// explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) {}
-		// template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+		explicit vector (const Alloc& alloc = allocator_type()) : start(), finish(), end() {}
+
+		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) {
+			this->start = std::allocator_traits::allocate(this->alloc, n);
+			this->end = this->start + n;
+			this->finish = this->start;
+
+			for (; n > 0; --n; ++this->finish)
+				std::allocator_traits::construct(this->alloc, this->finish);
+		}
+
+		template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
+		}
 		// vector (const vector& x);
 
 		virtual ~vector();

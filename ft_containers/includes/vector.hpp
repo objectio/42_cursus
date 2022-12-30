@@ -3,6 +3,7 @@
 
 #include "containers.hpp"
 #include <memory>
+#include <vector>
 
 namespace ft 
 {
@@ -23,6 +24,13 @@ namespace ft
 		typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 		typedef ptrdiff_t									difference_type;
 		typedef size_t										size_type;
+
+		/* DATA MEMBERS */
+		private:
+		allocator_type	alloc;
+		pointer			start;
+		pointer			finish;
+		pointer			end;
 
 		/* MEMBER FUNCTIONS */
 		// explicit vector (const Alloc& alloc = allocator_type()) {}

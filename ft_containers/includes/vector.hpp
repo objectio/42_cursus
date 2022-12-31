@@ -37,8 +37,8 @@ namespace ft
 
 		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) {
 			this->start = std::allocator_traits::allocate(this->alloc, n);
-			this->end = this->start + n;
 			this->finish = this->start;
+			this->end = this->start + n;
 
 			for (; n > 0; --n; ++this->finish)
 				std::allocator_traits::construct(this->alloc, this->finish);

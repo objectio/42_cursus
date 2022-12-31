@@ -55,8 +55,8 @@ namespace ft
 			this->_finish = this->start;
 			this->_end = this->_start + n;
 			
-			for (; n > 0; --n; ++this->_finish)
-				this->_alloc.construct(this->_finish, **first++);
+			for (; first != last; ++first; ++this->_finish)
+				this->_alloc.construct(this->_finish, *first);
 		}
 
 		vector (const vector& x)
@@ -64,11 +64,10 @@ namespace ft
 			difference_type n = x._finish - x._start;
 			this->_start =  this->_alloc.allocate(n);
 			this->_finish = this->start;
-			pointer tmp = x._start;
+			this->_end = this->_start + n;
 
-			for (; n > 0; --n; ++this->_finish)
-				this->_alloc.construct(this->_finish, **tmp++);
-			this->_end = this->_finish;
+			for (size_type i = 0; i < n; ++i, ++this->_finish)
+				this->_alloc.construct(this->_finish, *(x._start + i));
 		}
 
 		~vector() {

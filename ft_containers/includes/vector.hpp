@@ -27,29 +27,62 @@ namespace ft
 
 		/* DATA MEMBERS */
 		private:
-		allocator_type	alloc;
-		pointer			start;
-		pointer			finish;
-		pointer			end;
+		allocator_type	_alloc;
+		pointer			_start;
+		pointer			_finish;
+		pointer			_end;
 
 		/* MEMBER FUNCTIONS */
-		explicit vector (const Alloc& alloc = allocator_type()) : start(), finish(), end() {}
+		public:
+		explicit vector (const Alloc& alloc = allocator_type())
+		: _alloc(alloc), _start(NULL), _finish(NULL), _end(NULL) { }
 
-		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) {
-			this->start = std::allocator_traits::allocate(this->alloc, n);
-			this->finish = this->start;
-			this->end = this->start + n;
+		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+		: _alloc(alloc), _start(NULL), _finish(NULL), _end(NULL) {
+			this->_start = this->_alloc.allocate(n);
+			this->_finish = this->_start;
+			this->_end = this->_start + n;
 
-			for (; n > 0; --n; ++this->finish)
-				std::allocator_traits::construct(this->alloc, this->finish);
+			for (; n > 0; --n; ++this->_finish)
+				this->_alloc.construct(this->_finish, val);
 		}
 
-		template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
+		template <class InputIterator> 
+		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value>::type* = 0) 
+		: _alloc(alloc), _start(NULL), _finish(NULL), _end(NULL) {
+			difference_type n = ft::distance(first, last);
+			this->_start = this->_alloc.allocate(n);
+			this->_finish = this->start;
+			this->_end = this->_start + n;
+			
+			for (; n > 0; --n; ++this->_finish)
+				this->_alloc.construct(this->_finish, **first++);
 		}
-		// vector (const vector& x);
 
-		virtual ~vector();
-		vector& operator=(const vector& v);
+		vector (const vector& x)
+		: _alloc(x._alloc), _start(x._start), _finish(x._finish), _end(x._end) {
+			difference_type n = x._finish - x._start;
+			this->_start =  this->_alloc.allocate(n);
+			this->_finish = this->start;
+			pointer tmp = x._start;
+
+			for (; n > 0; --n; ++this->_finish)
+				this->_alloc.construct(this->_finish, **tmp++);
+			this->_end = this->_finish;
+		}
+
+		~vector() {
+			this->clear();
+			this->_alloc.deallocate(this->_start, this->_end - this->_start);
+		}
+
+		vector& operator=(const vector& v) {
+			if (this != &v) {
+				this->clear();
+				this->assign(v.begin(), v.end());
+			}
+			return (*this);
+		}
 	};
 
 }

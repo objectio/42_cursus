@@ -82,6 +82,40 @@ namespace ft
 			}
 			return (*this);
 		}
+
+		/* ITERATORS */
+		iterator begin() {
+			return (iterator(this->_start));
+		}
+
+		const_iterator begin() const {
+			return (const_iterator(this->_start));
+		}
+
+		iterator end() {
+			return (iterator(this->_finish));
+		}
+		
+		const_iterator end() const {
+			return (const_iterator(this->_finish));
+		}
+
+		reverse_iterator rbegin() {
+			return (reverse_iterator(end()));
+		}
+		 
+		const_reverse_iterator rbegin() const {
+			return (const_reverse_iterator(end()));
+		}
+
+		reverse_iterator rend() {
+			return (reverse_iterator(begin()));
+		}
+
+		const_reverse_iterator rend() const {
+			return (const_reverse_iterator(begin()));
+		}
+
 	};
 
 }

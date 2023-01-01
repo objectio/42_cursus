@@ -140,6 +140,52 @@ namespace ft
 		}
 
 		void reserve (size_type n); // WIP
+
+		reference operator[] (size_type n) {
+			return (*(this->_start + n));
+		}
+		
+		const_reference operator[] (size_type n) const {
+			return (*(this->_start + n));
+		}
+
+		reference at (size_type n) {
+			if (n >= this->size())
+				std::out_of_range("ft::vector::at");
+			
+			return ((*this)[n]);
+		}
+		
+		const_reference at (size_type n) const {
+			if (n >= this->size())
+				std::out_of_range("ft::vector::at");
+
+			return ((*this)[n]);
+		}
+
+		reference front() {
+			return (*begin());
+		}
+		
+		const_reference front() const {
+			return (*begin());
+		}
+
+		reference back() {
+			return (*(end() - 1));
+		}
+		
+		const_reference back() const {
+			return (*(end() - 1));
+		}
+
+		pointer data() {
+			return (pointer(this->_start));
+		}
+
+		const_pointer data() const {
+			return (const_iterator(this->_start));
+		}
 	};
 
 }

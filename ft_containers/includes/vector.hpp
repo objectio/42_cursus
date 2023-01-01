@@ -116,6 +116,30 @@ namespace ft
 			return (const_reverse_iterator(begin()));
 		}
 
+		size_type size() const {
+			return (size_type(this->_finish - this->_start));
+		}
+
+		size_type max_size() const {
+			return ();
+		}
+
+		void resize (size_type n, value_type val = value_type()) {
+			if (n < size())
+				erase(this->_start + n);
+			else
+				insert(end(), n - size(), val);
+		}
+
+		size_type capacity() const {
+			return (size_type(this->_end - this->_start));
+		}
+
+		bool empty() const {
+			return (begin() == end());
+		}
+
+		void reserve (size_type n); // WIP
 	};
 
 }

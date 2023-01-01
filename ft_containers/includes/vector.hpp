@@ -121,7 +121,7 @@ namespace ft
 		}
 
 		size_type max_size() const {
-			return ();
+			return (this->_alloc.max_size());
 		}
 
 		void resize (size_type n, value_type val = value_type()) {
@@ -186,6 +186,47 @@ namespace ft
 		const_pointer data() const {
 			return (const_iterator(this->_start));
 		}
+
+		template <class InputIterator>
+		void assign (InputIterator first, InputIterator last) {
+			typedef typename ft::is_integral<InputIterator>::type _integral;
+			// WIP
+		}
+
+		void assign (size_type n, const value_type& val); // WIP
+
+		void push_back (const value_type& val) {
+			if (this->_finish != this->_end)
+			{
+				this->_alloc.construct(this->_finish, val);
+				++this->_finish;
+			}
+			else {
+				if (this->size() == 0)
+					this->reserve(1);
+				else
+					this->reserve(2 * this->capacity());
+			}
+		}
+
+		void pop_back() {  // size() 검사 할까말까
+			--this->_finish;
+			this->_alloc.destroy(this->_finish);
+		}
+
+		iterator insert (iterator position, const value_type& val);
+
+		void insert (iterator position, size_type n, const value_type& val);
+
+		template <class InputIterator>
+		void insert (iterator position, InputIterator first, InputIterator last);
+
+		iterator erase (iterator position);
+		iterator erase (iterator first, iterator last);
+
+		void swap (vector& x);
+
+		void clear();
 	};
 
 }

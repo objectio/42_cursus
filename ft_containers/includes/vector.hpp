@@ -285,6 +285,11 @@ namespace ft
 			std::_Destroy(this->_start, this->_finish, this->_alloc);
 			this->_finish = this->_start;
 		}
+
+		/* ALLOCATOR */
+		allocator_type get_allocator() const {
+			return (this->_alloc);
+		}
 	};
 
 }

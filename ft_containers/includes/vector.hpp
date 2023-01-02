@@ -267,7 +267,7 @@ namespace ft
 
 		iterator erase (iterator first, iterator last) {
 			iterator i(std::copy(last, end(), first));
-			std::_Destroy(i, end()); // OB
+			std::_Destroy(i, end(), this->_alloc); // OB
 			this->_finish = this->_finish - (last - first);
 			return (first);
 		}

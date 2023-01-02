@@ -165,14 +165,14 @@ namespace ft
 
 		reference at (size_type n) {
 			if (n >= this->size())
-				std::out_of_range("ft::vector::at");
+				throw std::out_of_range("ft::vector::at");
 			
 			return ((*this)[n]);
 		}
 		
 		const_reference at (size_type n) const {
 			if (n >= this->size())
-				std::out_of_range("ft::vector::at");
+				throw std::out_of_range("ft::vector::at");
 
 			return ((*this)[n]);
 		}
@@ -207,7 +207,19 @@ namespace ft
 			// WIP
 		}
 
-		void assign (size_type n, const value_type& val); // WIP
+		void assign (size_type n, const value_type& val) {
+			if (n > capacity()) {
+				vector tmp(n, val, this->_alloc);
+				tmp.swap(*this);
+			}
+			else if (n > size()) {
+				std::fill(begin(), end(), val);
+				std::__uninitialized_copy_a(this->_finish, n - size(), val, this->_alloc);
+				this->_finish += n - size();
+			}
+			else
+				erase(std::fill_n(begin(), n, val), end());
+		}
 
 		void push_back (const value_type& val) {
 			if (this->_finish != this->_end)

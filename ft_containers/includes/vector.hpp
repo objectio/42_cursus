@@ -139,7 +139,21 @@ namespace ft
 			return (begin() == end());
 		}
 
-		void reserve (size_type n); // WIP
+		void reserve (size_type n) { // WIP
+			if (n > this->max_size())
+				throw std::length_error("ft::vector::reserve");
+			if (this->capacity() < n) {
+				const size_type old_size = this->size();
+				//pointer tmp = allocate_and_copy(n, this->_start, this->_finish);
+				pointer tmp = this->_alloc.allocate(n);
+				std::uninitialized_copy(this->_start, this->_finish, tmp);
+				this->_alloc.destroy(this->_start, this->_finish);
+				this->_alloc.deallocate(this->_start, this->_end - this->_start);
+				this->_start = tmp;
+				this->_finish = tmp + old_size;
+				this->_end = this->_start + n;
+			}
+		}
 
 		reference operator[] (size_type n) {
 			return (*(this->_start + n));
@@ -214,7 +228,17 @@ namespace ft
 			this->_alloc.destroy(this->_finish);
 		}
 
-		iterator insert (iterator position, const value_type& val);
+		iterator insert (iterator position, const value_type& val) {
+			const size_type n = position - begin();
+			if (this->_finish != this->_end && position == end()) {
+				this->_alloc.construct(this->_finish, val);
+				++this->_finish;
+			}
+			else {
+				// insert_aux
+			}
+			return (begin() + n);
+		}
 
 		void insert (iterator position, size_type n, const value_type& val);
 

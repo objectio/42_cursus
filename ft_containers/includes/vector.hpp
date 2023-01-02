@@ -257,12 +257,34 @@ namespace ft
 		template <class InputIterator>
 		void insert (iterator position, InputIterator first, InputIterator last);
 
-		iterator erase (iterator position);
-		iterator erase (iterator first, iterator last);
+		iterator erase (iterator position) {
+			if (position + 1 != end())
+				std::copy(position + 1, end(), position);
+			--this->_finish;
+			this->_alloc.destroy(this->_finish);
+			return (position);
+		}
 
-		void swap (vector& x);
+		iterator erase (iterator first, iterator last) {
+			iterator i(std::copy(last, end(), first));
+			std::_Destroy(i, end()); // OB
+			this->_finish = this->_finish - (last - first);
+			return (first);
+		}
 
-		void clear();
+		void swap (vector& x) { // OB
+			std::swap(this->_start, x._start);
+			std::swap(this->_finish, x._finish);
+			std::swap(this->_end, x._end);
+
+			if (this->_alloc != x._alloc)
+				std::swap(this->_alloc, x._alloc);
+		}
+
+		void clear() {
+			std::_Destroy(this->_start, this->_finish, this->_alloc);
+			this->_finish = this->_start;
+		}
 	};
 
 }

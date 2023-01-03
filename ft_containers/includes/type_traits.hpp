@@ -9,6 +9,7 @@
 #define TYPE_TRAITS_HPP
 
 #include "containers.hpp"
+#include <iostream>
 
 namespace ft 
 {
@@ -29,12 +30,6 @@ namespace ft
 
 	template <>
 	struct is_integral<char> : public ft::integral_constant<bool, true> {};
-
-	template <>
-	struct is_integral<char16_t> : public ft::integral_constant<bool, true> {};
-
-	template <>
-	struct is_integral<char32_t> : public ft::integral_constant<bool, true> {};
 
 	template <>
 	struct is_integral<wchar_t> : public ft::integral_constant<bool, true> {};

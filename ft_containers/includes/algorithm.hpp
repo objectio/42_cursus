@@ -5,6 +5,9 @@
 
 ***********************************************************************/
 
+#ifndef ALGORITHM_HPP
+#define ALGORITHM_HPP
+
 #include "containers.hpp"
 
 namespace ft 
@@ -55,3 +58,5 @@ namespace ft
 		return (first2 != last2);
 	}
 }
+
+#endif

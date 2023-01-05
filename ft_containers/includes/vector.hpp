@@ -253,8 +253,35 @@ namespace ft
 		}
 
 		void insert (iterator position, size_type n, const value_type& val) {
-			if (n == 1) {
-				
+			if (this->size() + n <= this->capacity()) { // 공간 그대로
+				pointer val_tmp = this->_finish;
+				size_type after_elems = this->_finish - position;
+				this->_finish += n;
+				pointer tmp = this->_finish;
+				while (after_elems--)
+					this->_alloc.construct(--tmp, *(--val_tmp));
+				while (n--)
+					this->_alloc.construct(--tmp, val);
+			}
+			else {
+				pointer tmp = this->_start;
+				size_type _size = n + this->size();
+				size_type front = position - this->_start;
+				size_type back = this->_finish - position;
+				this->_start = this->_alloc.allocate(_size);
+				this->_finish = this->_start;
+				this->_end = this->_start + _size;
+				while (front--)
+				{
+					this->_alloc.construct(this->_finish++, *tmp);
+					this->_alloc.destroy(tmp++);
+				}
+				while (n--)
+					this->_alloc.construct(this->_finish++, val);
+				while (back--) {
+					this->_alloc.construct(this->_finish++, *tmp);
+					this->_alloc.destroy(tmp++);
+				}
 			}
 		}
 

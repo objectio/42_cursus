@@ -248,20 +248,24 @@ namespace ft
 
 		iterator insert (iterator position, const value_type& val) {
 			const size_type n = position - begin();
-			if (this->_finish != this->_end && position == end()) {
-				this->_alloc.construct(this->_finish, val);
-				++this->_finish;
-			}
-			else {
-				// insert_aux
-			}
+			this->insert(position, 1, val);
 			return (begin() + n);
 		}
 
-		void insert (iterator position, size_type n, const value_type& val);
+		void insert (iterator position, size_type n, const value_type& val) {
+			if (n == 1) {
+				
+			}
+		}
 
 		template <class InputIterator>
-		void insert (iterator position, InputIterator first, InputIterator last);
+		void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = NULL) {
+			typedef typename ft::iterator_traits<InputIterator>::iterator_category _iter_category;
+			for (; first != last; ++first) {
+				position = insert(position, *first);
+				++position;
+			}
+		}
 
 		iterator erase (iterator position) {
 			if (position + 1 != end())

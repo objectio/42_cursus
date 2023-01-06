@@ -50,7 +50,7 @@ namespace ft
 		template <class InputIterator> 
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0) 
 		: _alloc(alloc), _start(NULL), _finish(NULL), _end(NULL) {
-			difference_type n = std::distance(first, last);
+			difference_type n = last - first;
 			this->_start = this->_alloc.allocate(n);
 			this->_finish = this->start;
 			this->_end = this->_start + n;
@@ -66,8 +66,8 @@ namespace ft
 			this->_finish = this->start;
 			this->_end = this->_start + n;
 
-			for (size_type i = 0; i < n; ++i, ++this->_finish)
-				this->_alloc.construct(this->_finish, *(x._start + i));
+			while (n--)
+				this->_alloc.construct(this->_finish++, *x._start++);
 		}
 
 		~vector() {

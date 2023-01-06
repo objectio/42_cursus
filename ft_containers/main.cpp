@@ -6,7 +6,7 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 21:30:51 by younjkim          #+#    #+#             */
-/*   Updated: 2023/01/03 23:41:18 by younjkim         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:18:49 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int main(int argc, char** argv)
 {
 	(void) argc;
 	(void) argv;
+
+	{
+		// ft::vector v(1, 5);
+		// std::cout << v.begin() << std::endl;
+	}
 
 	{
 		char foo[]="Apple";

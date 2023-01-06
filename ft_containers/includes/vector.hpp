@@ -39,8 +39,12 @@ namespace ft
 
 		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		: _alloc(alloc), _start(NULL), _finish(NULL), _end(NULL) {
-			std::__uninitialized_fill_n_a(this->_start, n, val, this->_alloc);
-			this->_finish = this->_start + n;
+			this->_start = this->_alloc.allocate(n);
+			this->_finish = this->_start;
+			this->_end = this->_start + n;
+
+			while (n--)
+				this->_alloc.construct(this->_finish++, val);
 		}
 
 		template <class InputIterator> 
@@ -139,14 +143,17 @@ namespace ft
 			if (n > this->max_size())
 				throw std::length_error("ft::vector::reserve");
 			if (this->capacity() < n) {
-				const size_type old_size = this->size();
 				//pointer tmp = allocate_and_copy(n, this->_start, this->_finish);
-				pointer tmp = this->_alloc.allocate(n);
-				std::uninitialized_copy(this->_start, this->_finish, tmp);
+				pointer tmp_start = this->_alloc.allocate(n);
+				pointer tmp_finish = tmp_start;
+
+				while (this->_start != this->_finish)
+					this->_alloc.construct(tmp_finish++, this->_start++);
+
 				this->_alloc.destroy(this->_start, this->_finish);
 				this->_alloc.deallocate(this->_start, this->_end - this->_start);
-				this->_start = tmp;
-				this->_finish = tmp + old_size;
+				this->_start = tmp_start;
+				this->_finish = tmp_finish;
 				this->_end = this->_start + n;
 			}
 		}
@@ -304,7 +311,7 @@ namespace ft
 
 		iterator erase (iterator first, iterator last) {
 			iterator i(std::copy(last, end(), first));
-			std::_Destroy(i, end(), this->_alloc); // OB
+			this->_alloc.destroy(i, end()); // OB
 			this->_finish = this->_finish - (last - first);
 			return (first);
 		}
@@ -319,7 +326,7 @@ namespace ft
 		}
 
 		void clear() {
-			std::_Destroy(this->_start, this->_finish, this->_alloc);
+			this->_alloc.destroy(this->_start, this->_finish);
 			this->_finish = this->_start;
 		}
 

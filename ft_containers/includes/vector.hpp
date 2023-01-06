@@ -317,12 +317,23 @@ namespace ft
 		}
 
 		void swap (vector& x) { // OB
-			std::swap(this->_start, x._start);
-			std::swap(this->_finish, x._finish);
-			std::swap(this->_end, x._end);
+			pointer tmp_start = this->_start; 
+			this->_start = x._start;
+			x._start = tmp_start;
 
-			if (this->_alloc != x._alloc)
-				std::swap(this->_alloc, x._alloc);
+			pointer tmp_finish = this->_finish;
+			this->_finish = x._finish;
+			x._finish = tmp_finish;
+
+			pointer tmp_end = this->_end;
+			this->_end = x._end;
+			x._end = tmp_end;
+
+			if (this->_alloc != x._alloc) {
+				allocator_type tmp_alloc = this->_alloc;
+				this->_alloc = x._alloc;
+				x._alloc = tmp_alloc;
+			}
 		}
 
 		void clear() {

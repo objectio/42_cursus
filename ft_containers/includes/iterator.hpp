@@ -19,6 +19,7 @@ namespace ft
 	class Pointer = T*,				// iterator::pointer          
 	class Reference = T& >			// iterator::reference          
 	class iterator {
+	public:
 	typedef T			value_type;
 	typedef Distance	difference_type;
 	typedef Pointer		pointer;
@@ -28,6 +29,7 @@ namespace ft
 
   template <class Iterator> 
   class iterator_traits {
+	public:
 	typedef typename Iterator::difference_type		difference_type;
 	typedef typename Iterator::value_type			value_type;
 	typedef typename Iterator::pointer				pointer;
@@ -37,6 +39,7 @@ namespace ft
 
   template <class T> 
   class iterator_traits<T*> {
+	public:
 	typedef ptrdiff_t					difference_type;
 	typedef T							value_type;
 	typedef T*							pointer;
@@ -46,6 +49,7 @@ namespace ft
 
   template <class T> 
   class iterator_traits<const T*> {
+	public:
 	typedef ptrdiff_t						difference_type;
 	typedef T								value_type;
 	typedef const T*						pointer;

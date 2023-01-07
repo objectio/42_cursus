@@ -147,10 +147,10 @@ namespace ft
 				pointer tmp_start = this->_alloc.allocate(n);
 				pointer tmp_finish = tmp_start;
 
-				while (this->_start != this->_finish)
-					this->_alloc.construct(tmp_finish++, this->_start++);
-
-				this->_alloc.destroy(this->_start, this->_finish);
+				while (this->_start != this->_finish) {
+					this->_alloc.construct(tmp_finish++, this->_start);
+					this->_alloc.destroy(this->_start++);
+				}
 				this->_alloc.deallocate(this->_start, this->_end - this->_start);
 				this->_start = tmp_start;
 				this->_finish = tmp_finish;
@@ -206,7 +206,6 @@ namespace ft
 
 		template <class InputIterator>
 		void assign (InputIterator first, InputIterator last, typename enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = NULL) {
-			typedef typename ft::iterator_traits<InputIterator>::iterator_category _iter_category;
 			iterator cur(begin());  // OB
 
 			while (first != last && cur != end()) {
@@ -227,7 +226,7 @@ namespace ft
 			}
 			else if (n > size()) {
 				std::fill(begin(), end(), val);
-				std::__uninitialized_copy_a(this->_finish, n - size(), val, this->_alloc);
+				this->_alloc.uninitialized_copy(this->_finish, n - size(), val);
 				this->_finish += n - size();
 			}
 			else
@@ -294,7 +293,6 @@ namespace ft
 
 		template <class InputIterator>
 		void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if< !ft::is_integral<InputIterator>::value >::type* = NULL) {
-			typedef typename ft::iterator_traits<InputIterator>::iterator_category _iter_category;
 			for (; first != last; ++first) {
 				position = insert(position, *first);
 				++position;
@@ -310,9 +308,13 @@ namespace ft
 		}
 
 		iterator erase (iterator first, iterator last) {
-			iterator i(std::copy(last, end(), first));
-			this->_alloc.destroy(i, end()); // OB
-			this->_finish = this->_finish - (last - first);
+			if (last != end())
+				std::copy(last, end(), first);
+			pointer pos = first.base() + (end() - last); 
+			// std::_Destroy(pos, this->_finish, this->_alloc);
+			// this->_finish = pos;
+			while (pos != this->_finish)
+				this->_alloc.destroy(this->_finish--);
 			return (first);
 		}
 
@@ -337,8 +339,8 @@ namespace ft
 		}
 
 		void clear() {
-			this->_alloc.destroy(this->_start, this->_finish);
-			this->_finish = this->_start;
+			while (this->_start != this->_finish)
+				this->_alloc.destroy(--this->_finish);
 		}
 
 		/* ALLOCATOR */

@@ -16,6 +16,24 @@ namespace ft {
 
 		private:
 		typedef typename Alloc:value_type	Alloc_value_type;
+
+		public:
+		class value_compare : public std::binary_function<value_type, value_type, bool> {
+			friend class map<Key, T, Compare, Alloc>;
+
+			protected:
+			Compare comp;
+			value_compare(Compare c) : comp(c) { }
+
+			public:
+			bool operator() (const value_type& x, const value_type& y) const {
+				return comp(x.first, y.first);
+			}
+		};
+
+		private:
+		typedef typename Alloc::template rebind<value_type>::other Pair_alloc_type;
+		
 	};
 }
 

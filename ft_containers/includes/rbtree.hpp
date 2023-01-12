@@ -45,6 +45,88 @@ namespace ft {
 		typedef Rb_tree_node<Val>*	type;
 		Val							value_field;
 	};
+
+	Rb_tree_node_base* Rb_tree_increment (Rb_tree_node_base* x) {
+		if (x->right != 0) {
+			x = x->right;
+			while (x->left != 0)
+				x = x->left;
+		}
+		else {
+			Rb_tree_node_base* y = x->parent;
+			while (x == y->right) {
+				x = y;
+				y = y->parent;
+			}
+			if (x->right != y)
+				x = y;
+		}
+		return (x);
+	}
+
+	const Rb_tree_node_base* Rb_tree_increment (const Rb_tree_node_base* x) {
+		return (Rb_tree_increment(const_cast<Rb_tree_node_base*>(x)));
+	}
+
+	Rb_tree_node_base* Rb_tree_decrement(Rb_tree_node_base* x) {
+		if (x->color == red && x->parent->parent == x)
+			x = x->right;
+		else if (x->left != 0) {
+			Rb_tree_node_base* y = x->left;
+			while (y->right != 0)
+				y = y->right;
+			x = y;
+		}
+		else {
+			Rb_tree_node_base* y = x->parent;
+			while (x == y->left) {
+				x = y;
+				y = y->parent;
+			}
+			x = y;
+		}
+		return (x);
+	}
+
+	const Rb_tree_node_base* Rb_tree_decrement(const Rb_tree_node_base* x) {
+		return (Rb_tree_decrement(const_cast<Rb_tree_node_base*>(x)));
+	}
+
+	void Rb_tree_rotate_left(Rb_tree_node_base* const x, Rb_tree_node_base*& root) {
+		Rb_tree_node_base* const y = x->right;
+
+		x->right = y->left;
+		if (y->left != 0)
+			y->left->parent = x;
+		y->parent = x->parent;
+
+		if (x == root)
+			root = y;
+		else if (x == x->parent->left)
+			x->parent->left = y;
+		else
+			x->parent->right = y;
+		y->left = x;
+		x->parent = y;
+	}
+
+	void Rb_tree_rotate_right(Rb_tree_node_base* const x, Rb_tree_node_base*& root) {
+		Rb_tree_node_base* const y = x->left;
+
+		x->left = y->right;
+		if (y->right != 0)
+			y->right->parent = x;
+		y->parent = x->parent;
+
+		if (x == root)
+			root = y;
+		else if (x == x->parent->right)
+			x->parent->right = y;
+		else
+			x->parent->left = y;
+		y->right = x;
+		x->parent = y;
+	}
 }
 
 #endif

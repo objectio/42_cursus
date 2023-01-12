@@ -92,6 +92,20 @@ namespace ft {
 		return (Rb_tree_decrement(const_cast<Rb_tree_node_base*>(x)));
 	}
 
+	template <typename T>
+	struct Rb_tree_iterator {
+		typedef T	value_type;
+		typedef T&	reference;
+		typedef T*	pointer;
+
+		typedef bidirectional_iterator_tag	iterator_category;
+		typedef ptrdiff_t					difference_type;
+
+		typedef Rb_tree_iterator<T>			self;
+		typedef Rb_tree_node_base::base_ptr	base_ptr;
+		typedef Rb_tree_node<T>*			type;
+	};
+
 	void Rb_tree_rotate_left(Rb_tree_node_base* const x, Rb_tree_node_base*& root) {
 		Rb_tree_node_base* const y = x->right;
 

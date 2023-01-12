@@ -127,6 +127,79 @@ namespace ft {
 		y->right = x;
 		x->parent = y;
 	}
+
+	void Rb_tree_insert_and_rebalance(const bool insert_left, Rb_tree_node_base* x, Rb_tree_node_base* p, Rb_tree_node_base& header) {
+		Rb_tree_node_base *& root = header.parent;
+
+		// initialize fileds in new node to insert
+		x->parent = p;
+		x->left = 0;
+		x->right = 0;
+		x->color = red;
+
+		// insert
+		if (insert_left) {
+			p->left = x;
+
+			if (p == &header) {
+				header.parent = x;
+				header.right = x;
+			}
+			else if (p == header.left)
+				header.left = x;
+		}
+		else {
+			p->right = x;
+
+			if (p == header.right)
+				header.right = x;
+		}
+
+		// rebalance
+		while (x != root && x->parent->color == red) {
+			Rb_tree_node_base* const xpp = x->parent->parent;
+
+			if (x->parent == xpp->left) {
+				Rb_tree_node_base* const y = xpp->right;
+				if (y && y->color == red) {
+					x->parent->color = black;
+					y->color = black;
+					xpp->color = red;
+					x = xpp;
+				}
+				else {
+					if (x == x->parent->right) {
+						x = x->parent;
+						Rb_tree_rotate_left(x, root);
+					}
+					x->parent->color = black;
+					xpp->color = red;
+					Rb_tree_rotate_right(xpp, root);
+				}
+			}
+			else {
+				Rb_tree_node_base* const y = xpp->left;
+				if (y && y->color == red) {
+					x->parent->color = black;
+					y->color = black;
+					xpp->color = red;
+					x = xpp;
+				}
+				else {
+					if (x == x->parent->left) {
+						x = x->parent;
+						Rb_tree_rotate_right(x, root);
+					}
+					x->parent->color = black;
+					xpp->color = red;
+					Rb_tree_rotate_left(xpp, root);
+				}
+			}
+		}
+		root->color = black;
+	}
+
+	Rb_tree_node_base* Rb_tree_rebalance_for_erase(Rb_tree_node_base* const z, Rb_tree_node_base& header);
 }
 
 #endif

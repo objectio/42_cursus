@@ -200,6 +200,20 @@ namespace ft {
 	}
 
 	Rb_tree_node_base* Rb_tree_rebalance_for_erase(Rb_tree_node_base* const z, Rb_tree_node_base& header);
+
+	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {
+		if (node == 0)
+			return 0;
+		unsigned int sum = 0;
+		do {
+			if (node->color == black)
+				++sum;
+			if (node == root)
+				break;
+			node = node->parent;
+		} while (1);
+		return (sum);
+	}
 }
 
 #endif

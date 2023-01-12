@@ -42,7 +42,7 @@ namespace ft {
 
 	template <typename Val>
 	struct Rb_tree_node : public Rb_tree_node_base {
-		typedef Rb_tree_node<Val>*	type;
+		typedef Rb_tree_node<Val>*	Type;
 		Val							value_field;
 	};
 
@@ -94,17 +94,62 @@ namespace ft {
 
 	template <typename T>
 	struct Rb_tree_iterator {
-		typedef T	value_type;
-		typedef T&	reference;
-		typedef T*	pointer;
+		typedef T							value_type;
+		typedef T&							reference;
+		typedef T*							pointer;
 
 		typedef bidirectional_iterator_tag	iterator_category;
 		typedef ptrdiff_t					difference_type;
 
-		typedef Rb_tree_iterator<T>			self;
+		typedef Rb_tree_iterator<T>			Self;
 		typedef Rb_tree_node_base::base_ptr	base_ptr;
-		typedef Rb_tree_node<T>*			type;
+		typedef Rb_tree_node<T>*			Type;
+		base_ptr							node;
+
+		Rb_tree_iterator() : node() { }
+
+		explicit Rb_tree_iterator(Type x) : node(x) { }
+
+		reference operator*() const {
+			return (static_cast<Type>(node)->value_field);
+		}
+
+		pointer operator->() const {
+			return (&static_cast<Type>(node)->value_field);
+		}
+
+		Self& operator++() {
+			node = Rb_tree_increment(node);
+			return (*this);
+		}
+
+		Self operator++(int) {
+			Self tmp = *this;
+			node = Rb_tree_increment(node);
+			return (tmp);
+		}
+
+		Self& operator--() {
+			node = Rb_tree_decrement(node);
+			return (*this);
+		}
+
+		Self operator--(int) {
+			Self tmp = *this;
+			node = Rb_tree_decrement(node);
+			return (tmp);
+		}
+
+		bool operator==(const Self& x) const {
+			return (node == x.node);
+		}
+
+		bool operator!= (const Self& x) const {
+			return (node != x.node);
+		}
 	};
+
+	// Rbtree const iterator
 
 	void Rb_tree_rotate_left(Rb_tree_node_base* const x, Rb_tree_node_base*& root) {
 		Rb_tree_node_base* const y = x->right;
@@ -214,6 +259,8 @@ namespace ft {
 	}
 
 	Rb_tree_node_base* Rb_tree_rebalance_for_erase(Rb_tree_node_base* const z, Rb_tree_node_base& header);
+
+// Rb_tree
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {
 		if (node == 0)

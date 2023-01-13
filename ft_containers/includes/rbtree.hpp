@@ -209,7 +209,6 @@ namespace ft {
 		}
 	};
 
-	// inline operator functions
 	template <typename Val>
 	bool operator==(const Rb_tree_iterator<Val>& x, const Rb_tree_const_iterator<Val>& y) {
 		return (x.node == y.node);

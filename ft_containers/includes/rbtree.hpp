@@ -8,7 +8,7 @@ namespace ft {
 
 	struct Rb_tree_node_base {
 		typedef Rb_tree_node_base*			base_ptr;
-		typedef typename Rb_tree_node_base*	const_base_ptr;
+		typedef const Rb_tree_node_base*	const_base_ptr;
 
 		Rb_tree_color	color;
 		base_ptr		parent;
@@ -42,7 +42,7 @@ namespace ft {
 
 	template <typename Val>
 	struct Rb_tree_node : public Rb_tree_node_base {
-		typedef Rb_tree_node<Val>*	Type;
+		typedef Rb_tree_node<Val>*	Link_type;
 		Val							value_field;
 	};
 
@@ -103,19 +103,19 @@ namespace ft {
 
 		typedef Rb_tree_iterator<T>			Self;
 		typedef Rb_tree_node_base::base_ptr	base_ptr;
-		typedef Rb_tree_node<T>*			Type;
+		typedef Rb_tree_node<T>*			Link_type;
 		base_ptr							node;
 
 		Rb_tree_iterator() : node() { }
 
-		explicit Rb_tree_iterator(Type x) : node(x) { }
+		explicit Rb_tree_iterator(Link_type x) : node(x) { }
 
 		reference operator*() const {
-			return (static_cast<Type>(node)->value_field);
+			return (static_cast<Link_type>(node)->value_field);
 		}
 
 		pointer operator->() const {
-			return (&static_cast<Type>(node)->value_field);
+			return (&static_cast<Link_type>(node)->value_field);
 		}
 
 		Self& operator++() {
@@ -149,7 +149,67 @@ namespace ft {
 		}
 	};
 
-	// Rbtree const iterator
+	template <typename T>
+	struct Rb_tree_const_iterator {
+		typedef T			value_type;
+		typedef const T&	reference;
+		typedef const T*	pointer;
+
+		typedef Rb_tree_iterator<T>					iterator;
+		typedef bidirectional_iterator_tag			iterator_category;
+		typedef ptrdiff_t							difference_type;
+
+		typedef Rb_tree_const_iterator<T>			Self;
+		typedef Rb_tree_node_base::const_base_ptr	base_ptr;
+		typedef const Rb_tree_node<T>*				link_type;
+		base_ptr									node;
+
+		Rb_tree_const_iterator() : node() { }
+
+		explicit Rb_tree_const_iterator(link_type x) : node(x) { }
+
+		Rb_tree_const_iterator(const iterator& it) : node(it.node) { }
+
+		reference operator*() const {
+			return (static_cast<link_type>(node)->value_field);
+		}
+
+		pointer operator->() const {
+			return (&static_cast<link_type>(node)->value_field);
+		}
+
+		Self& operator++() {
+			node = Rb_tree_increment(node);
+			return (*this);
+		}
+
+		Self operator++(int) {
+			Self tmp = *this;
+			node = Rb_tree_increment(node);
+			return (tmp);
+		}
+
+		Self& operator--() {
+			node = Rb_tree_decrement(node);
+			return (*this);
+		}
+
+		Self operator--(int) {
+			Self tmp = *this;
+			node = Rb_tree_decrement(node);
+			return (tmp);
+		}
+
+		bool operator==(const Self& x) const {
+			return (node == x.node);
+		}
+
+		bool operator!=(const Self& x) const {
+			return (node != x.node);
+		}
+	};
+	
+	// inline operator functions
 
 	void Rb_tree_rotate_left(Rb_tree_node_base* const x, Rb_tree_node_base*& root) {
 		Rb_tree_node_base* const y = x->right;

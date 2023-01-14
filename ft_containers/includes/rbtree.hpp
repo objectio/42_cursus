@@ -385,16 +385,18 @@ namespace ft {
 				else
 					z->parent->right = x;
 			
-			if (left == z)
+			if (left == z) {
 				if (z->right == 0)
 					left = z->parent;
 				else
 					left = Rb_tree_node_base::minimum(x);
-			if (right == z)
+			}
+			if (right == z) {
 				if (z->left == 0)
 					right = z->parent;
 				else
 					right = Rb_tree_node_base::maximum(x);
+			}
 		}
 
 		if (y->color != red) {
@@ -461,7 +463,28 @@ namespace ft {
 		return (y);
 	}
 
-// Rb_tree
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc = std::allocator<Val> >
+	class Rb_tree {
+		typedef typename Alloc::template rebind<Rb_tree_node<Val> >::other Node_allocator;
+
+		protected:
+		typedef Rb_tree_node_base*			base_ptr;
+		typedef const Rb_tree_node_base*	const_base_ptr;
+		typedef Rb_tree_node<Val>			Rb_tree_node;
+
+		public:
+		typedef Key							key_type;
+		typedef Val							value_type;
+		typedef value_type*					pointer;
+		typedef const value_type*			const_pointer;
+		typedef value_type&					reference;
+		typedef const value_type&			const_reference;
+		typedef Rb_tree_node*				link_type;
+		typedef const Rb_tree_node*			const_link_type;
+		typedef size_t						size_type;
+		typedef ptrdiff_t					difference_type;
+		typedef Alloc						allocator_type;
+	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {
 		if (node == 0)

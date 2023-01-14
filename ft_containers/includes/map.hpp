@@ -2,9 +2,10 @@
 #define MAP_HPP
 
 #include "containers.hpp"
+#include "utility.hpp"
 
 namespace ft {
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T>> >
+	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
 	class map {
 		/* MEMBER TYPES */
 		public:
@@ -15,7 +16,7 @@ namespace ft {
 		typedef Alloc					allocator_type;
 
 		private:
-		typedef typename Alloc:value_type	Alloc_value_type;
+		typedef typename Alloc::value_type	Alloc_value_type;
 
 		public:
 		class value_compare : public std::binary_function<value_type, value_type, bool> {

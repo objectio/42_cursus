@@ -484,6 +484,52 @@ namespace ft {
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
 		typedef Alloc						allocator_type;
+
+		/* MEMBER VARIABLE */
+		Compare								key_compare;
+		Rb_tree_node_base					header;
+		size_type							node_count;
+
+		Node_allocator& get_Node_allocator() {
+			return (*static_cast<Node_allocator*>(&this));
+		}
+
+		const Node_allocator& get_Node_allocator() const {
+			return (*static_cast<const Node_allocator*>(&this));
+		}
+
+		allocator_type get_allocator() const {
+			return (allocator_type(get_Node_allocator()));
+		}
+
+		protected:
+		Rb_tree_node* get_node() {
+			return (Node_allocator::allocate(1));
+		}
+
+		void put_node(Rb_tree_node* p) {
+			Node_allocator::deallocate(p, 1);
+		}
+
+		link_type create_node(const value_type& x) { // OB
+			link_type tmp = get_node();
+			get_allocator().construct(&tmp->value_field, x);
+			put_node(tmp);
+			return (tmp);
+		}
+
+		link_type clone_node(const_link_type x) {
+			link_type tmp = create_node(x->value_field);
+			tmp->color = x->color;
+			tmp->left = 0;
+			tmp->right = 0;
+			return (tmp);
+		}
+
+		void destroy_node(link_type p) {
+			get_allocator().destroy(&p->value_field);
+			put_node(p);
+		}
 	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {

@@ -126,7 +126,7 @@ namespace ft
 
 		void resize (size_type n, value_type val = value_type()) {
 			if (n < size())
-				erase(this->_start + n);
+				erase(begin() + n, end());
 			else
 				insert(end(), n - size(), val);
 		}
@@ -228,12 +228,8 @@ namespace ft
 				tmp.swap(*this);
 			}
 			else if (n > size()) {
-				//std::fill(begin(), end(), val);
-				iterator it = begin();
-				while (it != end()) {
-					it = val;
-				}
-				std::uninitialized_fill(this->_finish, n - size(), val);  // OB
+				std::fill(begin(), end(), val);
+				std::uninitialized_fill(end(), n - size(), val);  // OB
 				this->_finish += n - size();
 			}
 			else

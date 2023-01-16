@@ -3,7 +3,6 @@
 
 #include "containers.hpp"
 #include <memory>
-#include <vector>
 
 namespace ft 
 {
@@ -50,9 +49,9 @@ namespace ft
 		template <class InputIterator> 
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0) 
 		: _alloc(alloc), _start(NULL), _finish(NULL), _end(NULL) {
-			difference_type n = last - first;
+			difference_type n = std::distance(first, last);
 			this->_start = this->_alloc.allocate(n);
-			this->_finish = this->start;
+			this->_finish = this->_start;
 			this->_end = this->_start + n;
 			
 			while (n--)
@@ -60,14 +59,15 @@ namespace ft
 		}
 
 		vector (const vector& x)
-		: _alloc(x._alloc), _start(x._start), _finish(x._finish), _end(x._end) {
+		: _alloc(x._alloc), _start(NULL), _finish(NULL), _end(NULL) {
 			difference_type n = x._finish - x._start;
 			this->_start =  this->_alloc.allocate(n);
-			this->_finish = this->start;
-			this->_end = this->_start + n;
+			this->_finish = this->_start;
+			pointer tmp = x._start;
 
 			while (n--)
-				this->_alloc.construct(this->_finish++, *x._start++);
+				this->_alloc.construct(this->_finish++, *tmp++);
+			this->_end = this->_finish;
 		}
 
 		~vector() {
@@ -144,17 +144,20 @@ namespace ft
 				throw std::length_error("ft::vector::reserve");
 			if (this->capacity() < n) {
 				//pointer tmp = allocate_and_copy(n, this->_start, this->_finish);
-				pointer tmp_start = this->_alloc.allocate(n);
-				pointer tmp_finish = tmp_start;
+				pointer tmp_start = this->_start;
+				pointer tmp_finish = this->_finish;
+				pointer tmp_end = this->_end;
 
-				while (this->_start != this->_finish) {
-					this->_alloc.construct(tmp_finish++, this->_start);
-					this->_alloc.destroy(this->_start++);
-				}
-				this->_alloc.deallocate(this->_start, this->_end - this->_start);
-				this->_start = tmp_start;
-				this->_finish = tmp_finish;
+				this->_start = this->_alloc.allocate(n);
+				this->_finish = this->_start;
 				this->_end = this->_start + n;
+				pointer tmp = tmp_start;
+
+				while (tmp != tmp_finish) {
+					this->_alloc.construct(this->_finish++, *tmp);
+					this->_alloc.destroy(tmp++);
+				}
+				this->_alloc.deallocate(tmp_start, tmp_end - tmp_start);
 			}
 		}
 
@@ -205,7 +208,7 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last, typename enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = NULL) {
+		void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0) {
 			iterator cur(begin());  // OB
 
 			while (first != last && cur != end()) {
@@ -225,8 +228,12 @@ namespace ft
 				tmp.swap(*this);
 			}
 			else if (n > size()) {
-				std::fill(begin(), end(), val);
-				this->_alloc.uninitialized_copy(this->_finish, n - size(), val);
+				//std::fill(begin(), end(), val);
+				iterator it = begin();
+				while (it != end()) {
+					it = val;
+				}
+				std::uninitialized_fill(this->_finish, n - size(), val);  // OB
 				this->_finish += n - size();
 			}
 			else
@@ -261,7 +268,7 @@ namespace ft
 		void insert (iterator position, size_type n, const value_type& val) {
 			if (this->size() + n <= this->capacity()) { // 공간 그대로
 				pointer val_tmp = this->_finish;
-				size_type after_elems = this->_finish - position;
+				size_type after_elems = this->_finish - &(*position);
 				this->_finish += n;
 				pointer tmp = this->_finish;
 				while (after_elems--)
@@ -272,8 +279,8 @@ namespace ft
 			else {
 				pointer tmp = this->_start;
 				size_type _size = n + this->size();
-				size_type front = position - this->_start;
-				size_type back = this->_finish - position;
+				size_type front = &(*position) - this->_start;
+				size_type back = this->_finish - &(*position);
 				this->_start = this->_alloc.allocate(_size);
 				this->_finish = this->_start;
 				this->_end = this->_start + _size;

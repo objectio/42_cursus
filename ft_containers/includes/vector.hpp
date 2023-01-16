@@ -229,7 +229,7 @@ namespace ft
 			}
 			else if (n > size()) {
 				std::fill(begin(), end(), val);
-				std::uninitialized_fill(end(), n - size(), val);  // OB
+				std::uninitialized_fill_n(end(), n - size(), val);  // OB
 				this->_finish += n - size();
 			}
 			else

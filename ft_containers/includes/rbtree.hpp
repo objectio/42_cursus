@@ -98,7 +98,7 @@ namespace ft {
 		typedef T&							reference;
 		typedef T*							pointer;
 
-		typedef bidirectional_iterator_tag	iterator_category;
+		typedef std::bidirectional_iterator_tag	iterator_category;
 		typedef ptrdiff_t					difference_type;
 
 		typedef Rb_tree_iterator<T>			Self;
@@ -156,7 +156,7 @@ namespace ft {
 		typedef const T*	pointer;
 
 		typedef Rb_tree_iterator<T>					iterator;
-		typedef bidirectional_iterator_tag			iterator_category;
+		typedef std::bidirectional_iterator_tag			iterator_category;
 		typedef ptrdiff_t							difference_type;
 
 		typedef Rb_tree_const_iterator<T>			Self;

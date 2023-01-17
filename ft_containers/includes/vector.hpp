@@ -49,7 +49,7 @@ namespace ft
 		template <class InputIterator> 
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0) 
 		: _alloc(alloc), _start(NULL), _finish(NULL), _end(NULL) {
-			difference_type n = std::distance(first, last);
+			difference_type n = ft::distance(first, last);
 			this->_start = this->_alloc.allocate(n);
 			this->_finish = this->_start;
 			this->_end = this->_start + n;
@@ -209,31 +209,67 @@ namespace ft
 
 		template <class InputIterator>
 		void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0) {
-			iterator cur(begin());  // OB
-
-			while (first != last && cur != end()) {
-				*cur = *first;
-				if (first == last)
-					erase(cur, end());
-				else
-					insert(end(), first, last);
-				++cur;
-				++first;
+			this->clear();
+			size_type n = ft::distance(first, last);
+			if (n <= this->capacity()) {
+				while (n--)
+					this->_alloc.construct(this->_finish++, *first++);
 			}
+			else {
+				pointer tmp_start = this->_start;
+				pointer tmp_end = this->_end;
+
+				this->_start = this->_alloc.allocate(n);
+				this->_finish = this->_start;
+				this->_end = this->_start + n;
+				const_pointer tmp = &(*first);
+				while (tmp != &(*last))
+					this->_alloc.construct(this->_finish++, *tmp++);
+				this->_alloc.deallocate(tmp_start, tmp_end - tmp_start);			
+			}
+			// iterator cur(begin());  // OB
+
+			// while (first != last && cur != end()) {
+			// 	*cur = *first;
+			// 	if (first == last)
+			// 		erase(cur, end());
+			// 	else
+			// 		insert(end(), first, last);
+			// 	++cur;
+			// 	++first;
+			// }
 		}
 
 		void assign (size_type n, const value_type& val) {
-			if (n > capacity()) {
-				vector tmp(n, val, this->_alloc);
-				tmp.swap(*this);
+			this->clear();
+
+			if (n <= this->capacity()) {
+				while (n--)
+					this->_alloc.construct(this->_finish++, val);
 			}
-			else if (n > size()) {
-				std::fill(begin(), end(), val);
-				std::uninitialized_fill_n(end(), n - size(), val);  // OB
-				this->_finish += n - size();
+			else {
+				pointer tmp_start = this->_start;
+				pointer tmp_end = this->_end;
+
+				this->_start = this->_alloc.allocate(n);
+				this->_finish = this->_start;
+				this->_end = this->_start + n;
+				while (n--)
+					this->_alloc.construct(this->_finish++, val);
+				this->_alloc.deallocate(tmp_start, tmp_end - tmp_start);
+
 			}
-			else
-				erase(std::fill_n(begin(), n, val), end());
+			// if (n > capacity()) {
+			// 	vector tmp(n, val, this->_alloc);
+			// 	tmp.swap(*this);
+			// }
+			// else {
+			// 	// std::fill(begin(), end(), val);
+			// 	// std::uninitialized_fill_n(end(), n - size(), val);  // OB
+			// 	// this->_finish += n - size();
+			// 	while (n--)
+			// 		this->_alloc.allocate(this->_finish++, val);
+			// }
 		}
 
 		void push_back (const value_type& val) {

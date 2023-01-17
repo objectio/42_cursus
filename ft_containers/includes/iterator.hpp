@@ -159,42 +159,42 @@ namespace ft
 
   template <class IteratorL, class IteratorR>
   bool operator< (const reverse_iterator<IteratorL>& lhs, const reverse_iterator<IteratorR>& rhs) {
-	return (lhs.base() < rhs.base());
+	return (lhs.base() > rhs.base());
   }
 
   template <class Iterator>
   bool operator< (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
-	return (lhs.base() < rhs.base());
+	return (lhs.base() > rhs.base());
   }
 
   template <class IteratorL, class IteratorR>
   bool operator<= (const reverse_iterator<IteratorL>& lhs, const reverse_iterator<IteratorR>& rhs) {
-	return (lhs.base() <= rhs.base());
+	return (lhs.base() >= rhs.base());
   }
 
   template <class Iterator>
   bool operator<= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
-	return (lhs.base() <= rhs.base());
+	return (lhs.base() >= rhs.base());
   }
 
   template <class IteratorL, class IteratorR>
   bool operator> (const reverse_iterator<IteratorL>& lhs, const reverse_iterator<IteratorR>& rhs) {
-	return (lhs.base() > rhs.base());
+	return (lhs.base() < rhs.base());
   }
 
   template <class Iterator>
   bool operator> (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
-	return (lhs.base() > rhs.base());
+	return (lhs.base() < rhs.base());
   }
 
   template <class IteratorL, class IteratorR>
   bool operator>= (const reverse_iterator<IteratorL>& lhs, const reverse_iterator<IteratorR>& rhs) {
-	return (lhs.base() >= rhs.base());
+	return (lhs.base() <= rhs.base());
   }
 
   template <class Iterator>
   bool operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
-	return (lhs.base() >= rhs.base());
+	return (lhs.base() <= rhs.base());
   }
 
   template <class Iterator>

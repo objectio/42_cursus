@@ -212,6 +212,16 @@ namespace ft
 	return (rhs.base() - lhs.base());
   }
 
+	template<class Iterator>
+	typename iterator_traits<Iterator>::difference_type distance (Iterator first, Iterator last) {
+		typename iterator_traits<Iterator>::difference_type cnt = 0;
+
+		while (first != last) {
+			first++;
+			cnt++;
+		}
+		return (cnt);
+	}
 }
 
 #endif

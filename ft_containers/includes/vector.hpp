@@ -273,17 +273,14 @@ namespace ft
 		}
 
 		void push_back (const value_type& val) {
-			if (this->_finish != this->_end)
-			{
-				this->_alloc.construct(this->_finish, val);
-				++this->_finish;
-			}
-			else {
+			if (this->_finish == this->_end) {
 				if (this->size() == 0)
 					this->reserve(1);
 				else
 					this->reserve(2 * this->capacity());
 			}
+				this->_alloc.construct(this->_finish, val);
+				++this->_finish;
 		}
 
 		void pop_back() {  // size() 검사 할까말까

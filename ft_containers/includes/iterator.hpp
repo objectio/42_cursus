@@ -204,7 +204,7 @@ namespace ft
 
   template <class IteratorL, class IteratorR>
   typename reverse_iterator<IteratorL>::difference_type operator- (const reverse_iterator<IteratorL>& lhs, const reverse_iterator<IteratorR>& rhs) {
-	return (lhs.base() - rhs.base());
+	return (rhs.base() - lhs.base());
   }
 
   template <class Iterator>

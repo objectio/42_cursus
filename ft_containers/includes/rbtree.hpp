@@ -530,6 +530,22 @@ namespace ft {
 			get_allocator().destroy(&p->value_field);
 			put_node(p);
 		}
+
+		base_ptr& root() {
+			return (this->header.parent);
+		}
+
+		const_base_ptr root() const {
+			return (this->header.parent);
+		}
+
+		base_ptr& leftmost() {
+			return (this->header.left);
+		}
+
+		const_base_ptr leftmost() const {
+			return (this->header.left);
+		}
 	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {

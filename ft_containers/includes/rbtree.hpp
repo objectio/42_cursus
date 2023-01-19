@@ -563,9 +563,21 @@ namespace ft {
 			return (static_cast<const_link_type>(this->header.parent));
 		}
 
-		// link_type end() {
-		// 	return ();
-		// }
+		link_type end() {
+			return (static_cast<link_type>(&this->header));
+		}
+
+		const_link_type end() const {
+			return (static_cast<const_link_type>(&this->header));
+		}
+
+		static const_reference value(const_link_type x) {
+			return (x->value_field);
+		}
+
+		static const Key& key(const_link_type x) {
+			return (KeyOfValue()(value(x)));
+		}
 	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {

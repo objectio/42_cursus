@@ -42,7 +42,7 @@ namespace ft {
 
 	template <typename Val>
 	struct Rb_tree_node : public Rb_tree_node_base {
-		typedef Rb_tree_node<Val>*	Link_type;
+		typedef Rb_tree_node<Val>*	link_type;
 		Val							value_field;
 	};
 
@@ -94,28 +94,28 @@ namespace ft {
 
 	template <typename T>
 	struct Rb_tree_iterator {
-		typedef T							value_type;
-		typedef T&							reference;
-		typedef T*							pointer;
+		typedef T								value_type;
+		typedef T&								reference;
+		typedef T*								pointer;
 
 		typedef std::bidirectional_iterator_tag	iterator_category;
-		typedef ptrdiff_t					difference_type;
+		typedef ptrdiff_t						difference_type;
 
-		typedef Rb_tree_iterator<T>			Self;
-		typedef Rb_tree_node_base::base_ptr	base_ptr;
-		typedef Rb_tree_node<T>*			Link_type;
-		base_ptr							node;
+		typedef Rb_tree_iterator<T>				Self;
+		typedef Rb_tree_node_base::base_ptr		base_ptr;
+		typedef Rb_tree_node<T>*				link_type;
+		base_ptr								node;
 
 		Rb_tree_iterator() : node() { }
 
-		explicit Rb_tree_iterator(Link_type x) : node(x) { }
+		explicit Rb_tree_iterator(link_type x) : node(x) { }
 
 		reference operator*() const {
-			return (static_cast<Link_type>(node)->value_field);
+			return (static_cast<link_type>(node)->value_field);
 		}
 
 		pointer operator->() const {
-			return (&static_cast<Link_type>(node)->value_field);
+			return (&static_cast<link_type>(node)->value_field);
 		}
 
 		Self& operator++() {
@@ -546,6 +546,26 @@ namespace ft {
 		const_base_ptr leftmost() const {
 			return (this->header.left);
 		}
+
+		base_ptr& rightmost() {
+			return (this->header.right);
+		}
+
+		const_base_ptr rightmost() const {
+			return (this->header.right);
+		}
+
+		link_type begin() {
+			return (static_cast<link_type>(this->header.parent));
+		}
+
+		const_link_type begin() const {
+			return (static_cast<const_link_type>(this->header.parent));
+		}
+
+		// link_type end() {
+		// 	return ();
+		// }
 	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {

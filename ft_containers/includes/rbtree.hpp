@@ -626,15 +626,43 @@ namespace ft {
 		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 		private:
-		iterator insert(base_ptr x, base_ptr y, const value_type& v);
+		iterator insert(base_ptr x, base_ptr y, const value_type& v) {
+			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(p)));
+			link_type z = create_node(v);
 
-		iterator insert_lower(base_ptr x, base_ptr y, const value_type& v);
+			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
+			++node_count;
+			return (iterator(z));
+		}
 
-		const_iterator insert(const_base_ptr x, const_base_ptr y, const value_type& v);
+		iterator insert_lower(base_ptr x, base_ptr y, const value_type& v) {
+			bool insert_left = (x != 0 || y == end() || !key_compare(key(p), KeyOfValue()(v)));
+			link_type z = create_node(v);
 
-		link_type copy(const_link_type x, link_type p);
+			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
+			++node_count;
+			return (iterator(z));
+		}
 
-		void erase(link_type x);
+		const_iterator insert(const_base_ptr x, const_base_ptr y, const value_type& v) {
+			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(p)));
+			link_type z = create_node(v);
+
+			Rb_tree_insert_and_rebalance(insert_left, z, const_cast<base_ptr>(y), this->header);
+			++node_count;
+			return (const_iterator(z));
+		}
+
+		link_type copy(const_link_type x, link_type p);  // TODO
+
+		void erase(link_type x) {
+			while (x != 0) {
+				erase(right(x));
+				link_type y = left(x);
+				destroy_node(x);
+				x = y;
+			}
+		}
 
 		public:
 		Rb_tree() { }
@@ -735,7 +763,50 @@ namespace ft {
 			return (get_allocator().max_size());
 		}
 
-		void swap(Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& t);
+		void swap(Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& t); // TODO
+
+		// TODO : insert_equal or insert_unique ?
+
+		void erase(iterator position);
+
+		void erase(const_iterator position);
+
+		size_type erase(const key_type& x);
+
+		void erase(iterator first, iterator last);
+
+		void erase(const_iterator first, const_iterator last);
+
+		void erase(const key_type* first, const key_type* last);
+
+		void clear() {
+			erase(begin());
+			leftmost() = end();
+			root() = 0;
+			rightmost() = end();
+			node_count = 0;
+		}
+
+		// Set operations
+		iterator find(const key_type& x);
+
+		const_iterator find(const key_type& x) const;
+
+		size_type count(const key_type& x) const;
+
+		iterator lower_bound(const key_type& x);
+
+		const_iterator lower_bound(const key_type& x) const;
+
+		iterator upper_bound(const key_type& x);
+
+		const_iterator upper_bound(const key_type& x) const;
+
+		pair<iterator,iterator> equal_range(const key_type& x);
+
+		pair<const_iterator,const_iterator> equal_range(const key_type& x) const;
+
+		bool rb_verify() const;
 	};
 
 	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>

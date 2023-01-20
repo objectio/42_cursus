@@ -578,6 +578,63 @@ namespace ft {
 		static const Key& key(const_link_type x) {
 			return (KeyOfValue()(value(x)));
 		}
+
+		static link_type left(base_ptr x) {
+			return (static_cast<link_type>(x->left));
+		}
+
+		static const_link_type left(const_base_ptr x) {
+			return (static_cast<const_link_type>(x->left));
+		}
+
+		static link_type right(base_ptr x) {
+			return (static_cast<link_type>(x->right));
+		}
+
+		static const_link_type right(const_base_ptr x) {
+			return (static_cast<const_link_type>(x->right));
+		}
+
+		static const_reference value(const_base_ptr x) {
+			return (static_cast<const_link_type>(x)->value_field);
+		}
+
+		static const Key& key(const_base_ptr x) {
+			return (KeyOfValue()(value(x)));
+		}
+
+		static base_ptr minimum(base_ptr x) {
+			return (Rb_tree_node_base::minimum(x));
+		}
+
+		static const_base_ptr minimum(const_base_ptr x) {
+			return (Rb_tree_node_base::minimum(x));
+		}
+
+		static base_ptr maximum(base_ptr x) {
+			return (Rb_tree_node_base::maximum(x));
+		}
+
+		static const_base_ptr maximum(const_base_ptr x) {
+			return (Rb_tree_node_base::maximum(x));
+		}
+
+		public:
+		typedef Rb_tree_iterator<value_type>			iterator;
+		typedef Rb_tree_const_iterator<value_type>		const_iterator;
+		typedef ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+
+		private:
+		iterator insert(base_ptr x, base_ptr y, const value_type& v);
+
+		iterator insert_lower(base_ptr x, base_ptr y, const value_type& v);
+
+		const_iterator insert(const_base_ptr x, const_base_ptr y, const value_type& v);
+
+		link_type copy(const_link_type x, link_type p);
+
+		void erase(link_type x);
 	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {

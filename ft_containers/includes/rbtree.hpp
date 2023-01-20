@@ -627,7 +627,7 @@ namespace ft {
 
 		private:
 		iterator insert(base_ptr x, base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(p)));
+			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(y)));
 			link_type z = create_node(v);
 
 			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
@@ -636,7 +636,7 @@ namespace ft {
 		}
 
 		iterator insert_lower(base_ptr x, base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == end() || !key_compare(key(p), KeyOfValue()(v)));
+			bool insert_left = (x != 0 || y == end() || !key_compare(key(y), KeyOfValue()(v)));
 			link_type z = create_node(v);
 
 			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
@@ -645,7 +645,7 @@ namespace ft {
 		}
 
 		const_iterator insert(const_base_ptr x, const_base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(p)));
+			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(y)));
 			link_type z = create_node(v);
 
 			Rb_tree_insert_and_rebalance(insert_left, z, const_cast<base_ptr>(y), this->header);
@@ -829,10 +829,10 @@ namespace ft {
 			}
 
 			iterator i = iterator(y);
-			return ((j == end() || key_compare(k, key(i.node))) ? end() : i);
+			return ((i == end() || key_compare(k, key(i.node))) ? end() : i);
 		}
 
-		const_iterator find(const key_type& x) const  {
+		const_iterator find(const key_type& k) const  {
 			const_link_type x = begin();
 			const_link_type y = end();
 
@@ -846,10 +846,10 @@ namespace ft {
 			}
 
 			const_iterator i = const_iterator(y);
-			return ((j == end() || key_compare(k, key(i.node))) ? end() : i);
+			return ((i == end() || key_compare(k, key(i.node))) ? end() : i);
 		}
 
-		size_type count(const key_type& x) const {
+		size_type count(const key_type& k) const {
 			pair<const_iterator, const_iterator> p = equal_range(k);
 			const size_type n = ft::distance(p.first, p.second);
 			return (n);
@@ -870,7 +870,7 @@ namespace ft {
 			return (iterator(y));
 		}
 
-		const_iterator lower_bound(const key_type& x) const {
+		const_iterator lower_bound(const key_type& k) const {
 			const_link_type x = begin();
 			const_link_type y = end();
 
@@ -900,7 +900,7 @@ namespace ft {
 			return (iterator(y));
 		}
 
-		const_iterator upper_bound(const key_type& x) const {
+		const_iterator upper_bound(const key_type& k) const {
 			const_link_type x = begin();
 			const_link_type y = end();
 

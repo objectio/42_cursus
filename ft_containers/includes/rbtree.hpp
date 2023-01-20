@@ -767,17 +767,44 @@ namespace ft {
 
 		// TODO : insert_equal or insert_unique ?
 
-		void erase(iterator position);
+		void erase(iterator position) {
+			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(position.node, this->header));
+			destroy_node(y);
+			--node_count;
+		}
 
-		void erase(const_iterator position);
+		void erase(const_iterator position) {
+			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(const_cast<base_ptr>(position.node), this->header));
+			destroy_node(y);
+			--node_count;
+		}
 
-		size_type erase(const key_type& x);
+		size_type erase(const key_type& x) {
+			pair<iterator,iterator> p = equal_range(x);
+			const size_type old_size = size();
+			erase(p.first, p.second);
+			return (old_size - size());
+		}
 
-		void erase(iterator first, iterator last);
+		void erase(iterator first, iterator last) {
+			if (first == begin() && last == end())	clear();
+			else {
+				while (first != last)
+					erase(first++);
+			}
+		}
 
-		void erase(const_iterator first, const_iterator last);
+		void erase(const_iterator first, const_iterator last) {
+			if (first == begin() && last == end())	clear();
+			else {
+				while (first != last)
+					erase(first++);
+			}
+		}
 
-		void erase(const key_type* first, const key_type* last);
+		void erase(const key_type* first, const key_type* last) {
+			while (first != last)	erase(*first++);
+		}
 
 		void clear() {
 			erase(begin());

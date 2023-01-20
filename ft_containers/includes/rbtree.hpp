@@ -635,6 +635,56 @@ namespace ft {
 		link_type copy(const_link_type x, link_type p);
 
 		void erase(link_type x);
+
+		public:
+		Rb_tree() { }
+
+		Rb_tree(const Compare& comp) : Node_allocator(allocator_type()), key_compare(comp), header(), node_count(0) {
+			this->header.color = red;
+			this->header.parent = 0;
+			this->header.left = &this->header;
+			this->header.right = &this->header;
+		}
+
+		Rb_tree(const Compare& comp, const allocator_type& a)
+		: Node_allocator(a), key_compare(comp), header(), node_count(0) {
+			this->header.color = red;
+			this->header.parent = 0;
+			this->header.left = &this->header;
+			this->header.right = &this->header;
+		}
+
+		Rb_tree(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x)
+		: Node_allocator(x.get_Node_allocator()), key_compare(x.key_compare), header(), node_count(x.node_count) {
+			this->header.color = red;
+			this->header.parent = 0;
+			this->header.left = &this->header;
+			this->header.right = &this->header;
+
+			if (x.root() != 0) {
+				root() = copy(x.begin(), end());
+				leftmost() = minimum(root());
+				rightmost() = maximum(root());
+			}
+		}
+
+		~Rb_tree() {
+			erase(begin());
+		}
+
+		Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& operator=(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x) {
+			if (this != &x) {
+				clear();
+				this->key_compare = x.key_compare;
+				if (x.root() != 0) {
+					root() = copy(x.begin(), end());
+					leftmost() = minimum(root());
+					rightmost() = maximum(root());
+					node_count = x.node_count;
+				}
+			}
+			return (*this);
+		}
 	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {

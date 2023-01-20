@@ -685,6 +685,57 @@ namespace ft {
 			}
 			return (*this);
 		}
+
+		/* ACCESSORS */
+		Compare key_comp() const {
+			return (key_compare);
+		}
+
+		iterator begin() {
+			return (iterator(static_cast<link_type>(this->header.left)));
+		}
+
+		const_iterator begin() const {
+			return (const_iterator(static_cast<const_link_type>(this->header.left)));
+		}
+
+		iterator end() {
+			return (iterator(static_cast<link_type>(&this->header)));
+		}
+
+		const_iterator end() const {
+			return (const_iterator(static_cast<const_link_type>(&this->header)));
+		}
+
+		reverse_iterator rbegin() {
+			return (reverse_iterator(end()));
+		}
+
+		const_reverse_iterator rbegin() const {
+			return (const_reverse_iterator(end()));
+		}
+
+		reverse_iterator rend() {
+			return (reverse_iterator(begin()));
+		}
+
+		const_reverse_iterator rend() const {
+			return (const_reverse_iterator(begin()));
+		}
+
+		bool empty() const {
+			return (node_count == 0);
+		}
+
+		size_type size() const {
+			return (node_count);
+		}
+
+		size_type max_size() const {
+			return (get_allocator().max_size());
+		}
+
+		void swap(Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& t);
 	};
 
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {

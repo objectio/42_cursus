@@ -738,6 +738,41 @@ namespace ft {
 		void swap(Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& t);
 	};
 
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>
+	bool operator==(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x, const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& y) {
+		return (x.size() == y.size() && ft::equal(x.begin(), x.end(), y.begin()));
+	}
+
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>
+	bool operator<(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x, const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& y) {
+		return (ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end()));
+	}
+
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>
+	bool operator!=(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x, const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& y) {
+		return !(x == y);
+	}
+
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>
+	bool operator>(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x, const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& y) {
+		return (y < x);
+	}
+
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>
+	bool operator<=(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x, const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& y) {
+		return !(y < x);
+	}
+
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>
+	bool operator>=(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x, const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& y) {
+		return !(x < y);
+	}
+
+	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>
+	void swap(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x, const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& y) {
+		x.swap(y);
+	}
+
 	unsigned int Rb_tree_black_count(const Rb_tree_node_base* node, const Rb_tree_node_base* root) {
 		if (node == 0)
 			return 0;

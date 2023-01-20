@@ -815,25 +815,148 @@ namespace ft {
 		}
 
 		// Set operations
-		iterator find(const key_type& x);
+		iterator find(const key_type& k) {
+			link_type x = begin();
+			link_type y = end();
 
-		const_iterator find(const key_type& x) const;
+			while (x != 0) {
+				if (!key_compare(key(x), k)) {
+					y = x;
+					x = left(x);
+				}
+				else 
+					x = right(x);
+			}
 
-		size_type count(const key_type& x) const;
+			iterator i = iterator(y);
+			return ((j == end() || key_compare(k, key(i.node))) ? end() : i);
+		}
 
-		iterator lower_bound(const key_type& x);
+		const_iterator find(const key_type& x) const  {
+			const_link_type x = begin();
+			const_link_type y = end();
 
-		const_iterator lower_bound(const key_type& x) const;
+			while (x != 0) {
+				if (!key_compare(key(x), k)) {
+					y = x;
+					x = left(x);
+				}
+				else 
+					x = right(x);
+			}
 
-		iterator upper_bound(const key_type& x);
+			const_iterator i = const_iterator(y);
+			return ((j == end() || key_compare(k, key(i.node))) ? end() : i);
+		}
 
-		const_iterator upper_bound(const key_type& x) const;
+		size_type count(const key_type& x) const {
+			pair<const_iterator, const_iterator> p = equal_range(k);
+			const size_type n = ft::distance(p.first, p.second);
+			return (n);
+		}
 
-		pair<iterator,iterator> equal_range(const key_type& x);
+		iterator lower_bound(const key_type& k) {
+			link_type x = begin();
+			link_type y = end();
 
-		pair<const_iterator,const_iterator> equal_range(const key_type& x) const;
+			while (x != 0) {
+				if (!key_compare(key(x), k)) {
+					y = x;
+					x = left(x);
+				}
+				else
+					x = right(x);
+			}
+			return (iterator(y));
+		}
 
-		bool rb_verify() const;
+		const_iterator lower_bound(const key_type& x) const {
+			const_link_type x = begin();
+			const_link_type y = end();
+
+			while (x != 0) {
+				if (!key_compare(key(x), k)) {
+					y = x;
+					x = left(x);
+				}
+				else
+					x = right(x);
+			}
+			return (const_iterator(y));
+		}
+
+		iterator upper_bound(const key_type& k) {
+			link_type x = begin();
+			link_type y = end();
+
+			while (x != 0) {
+				if (key_compare(k, key(x))) {
+					y = x;
+					x = left(x);
+				}
+				else
+					x = right(x);
+			}
+			return (iterator(y));
+		}
+
+		const_iterator upper_bound(const key_type& x) const {
+			const_link_type x = begin();
+			const_link_type y = end();
+
+			while (x != 0) {
+				if (key_compare(k, key(x))) {
+					y = x;
+					x = left(x);
+				}
+				else
+					x = right(x);
+			}
+			return (const_iterator(y));
+		}
+
+		pair<iterator,iterator> equal_range(const key_type& x) {
+			return (pair<iterator,iterator>(lower_bound(x), upper_bound(x)));
+		}
+
+		pair<const_iterator,const_iterator> equal_range(const key_type& x) const {
+			return (pair<const_iterator,const_iterator>(lower_bound(x), upper_bound(x)));
+		}
+
+		bool rb_verify() const {
+			if (node_count == 0 || begin() == end())
+				return (node_count == 0 && begin() == end()
+				&& this->header.left == end()
+				&& this->header.right == end());
+
+			unsigned int len = Rb_tree_black_count(leftmost(), root());
+			for (const_iterator it = begin(); it != end(); ++it) {
+				const_link_type x = static_cast<const_link_type>(it.node);
+				const_link_type L = left(x);
+				const_link_type R = right(x);
+
+				if (x->color == red)
+					if ((L && L->color == red) || (R && R->color == red))
+						return (false);
+
+				if (L && key_compare(key(x), key(L)))
+					return (false);
+
+				if (R && key_compare(key(R), key(x)))
+					return (false);
+
+				if (!L && !R && Rb_tree_black_count(x, root()) != len)
+					return (false);
+			}
+
+			if (leftmost() != Rb_tree_node_base::minimum(root()))
+				return (false);
+			
+			if (rightmost() != Rb_tree_node_base::maximum(root()))
+				return (false);
+
+			return (true);
+		}
 	};
 
 	template <typename Key, typename Val, typename KeyOfValue, typename Compare, typename Alloc>

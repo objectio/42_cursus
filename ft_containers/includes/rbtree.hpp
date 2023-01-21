@@ -555,19 +555,19 @@ namespace ft {
 			return (this->header.right);
 		}
 
-		link_type begin() {
+		link_type m_begin() {
 			return (static_cast<link_type>(this->header.parent));
 		}
 
-		const_link_type begin() const {
+		const_link_type m_begin() const {
 			return (static_cast<const_link_type>(this->header.parent));
 		}
 
-		link_type end() {
+		link_type m_end() {
 			return (static_cast<link_type>(&this->header));
 		}
 
-		const_link_type end() const {
+		const_link_type m_end() const {
 			return (static_cast<const_link_type>(&this->header));
 		}
 
@@ -627,7 +627,7 @@ namespace ft {
 
 		private:
 		iterator insert(base_ptr x, base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(y)));
+			bool insert_left = (x != 0 || y == m_end() || key_compare(KeyOfValue()(v), key(y)));
 			link_type z = create_node(v);
 
 			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
@@ -636,7 +636,7 @@ namespace ft {
 		}
 
 		iterator insert_lower(base_ptr x, base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == end() || !key_compare(key(y), KeyOfValue()(v)));
+			bool insert_left = (x != 0 || y == m_end() || !key_compare(key(y), KeyOfValue()(v)));
 			link_type z = create_node(v);
 
 			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
@@ -645,7 +645,7 @@ namespace ft {
 		}
 
 		const_iterator insert(const_base_ptr x, const_base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == end() || key_compare(KeyOfValue()(v), key(y)));
+			bool insert_left = (x != 0 || y == m_end() || key_compare(KeyOfValue()(v), key(y)));
 			link_type z = create_node(v);
 
 			Rb_tree_insert_and_rebalance(insert_left, z, const_cast<base_ptr>(y), this->header);
@@ -690,14 +690,14 @@ namespace ft {
 			this->header.right = &this->header;
 
 			if (x.root() != 0) {
-				root() = copy(x.begin(), end());
+				root() = copy(x.m_begin(), m_end());
 				leftmost() = minimum(root());
 				rightmost() = maximum(root());
 			}
 		}
 
 		~Rb_tree() {
-			erase(begin());
+			erase(m_begin());
 		}
 
 		Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& operator=(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x) {
@@ -705,7 +705,7 @@ namespace ft {
 				clear();
 				this->key_compare = x.key_compare;
 				if (x.root() != 0) {
-					root() = copy(x.begin(), end());
+					root() = copy(x.m_begin(), m_end());
 					leftmost() = minimum(root());
 					rightmost() = maximum(root());
 					node_count = x.node_count;
@@ -807,17 +807,17 @@ namespace ft {
 		}
 
 		void clear() {
-			erase(begin());
-			leftmost() = end();
+			erase(m_begin());
+			leftmost() = m_end();
 			root() = 0;
-			rightmost() = end();
+			rightmost() = m_end();
 			node_count = 0;
 		}
 
 		// Set operations
 		iterator find(const key_type& k) {
-			link_type x = begin();
-			link_type y = end();
+			link_type x = m_begin();
+			link_type y = m_end();
 
 			while (x != 0) {
 				if (!key_compare(key(x), k)) {
@@ -833,8 +833,8 @@ namespace ft {
 		}
 
 		const_iterator find(const key_type& k) const  {
-			const_link_type x = begin();
-			const_link_type y = end();
+			const_link_type x = m_begin();
+			const_link_type y = m_end();
 
 			while (x != 0) {
 				if (!key_compare(key(x), k)) {
@@ -856,8 +856,8 @@ namespace ft {
 		}
 
 		iterator lower_bound(const key_type& k) {
-			link_type x = begin();
-			link_type y = end();
+			link_type x = m_begin();
+			link_type y = m_end();
 
 			while (x != 0) {
 				if (!key_compare(key(x), k)) {
@@ -871,8 +871,8 @@ namespace ft {
 		}
 
 		const_iterator lower_bound(const key_type& k) const {
-			const_link_type x = begin();
-			const_link_type y = end();
+			const_link_type x = m_begin();
+			const_link_type y = m_end();
 
 			while (x != 0) {
 				if (!key_compare(key(x), k)) {
@@ -886,8 +886,8 @@ namespace ft {
 		}
 
 		iterator upper_bound(const key_type& k) {
-			link_type x = begin();
-			link_type y = end();
+			link_type x = m_begin();
+			link_type y = m_end();
 
 			while (x != 0) {
 				if (key_compare(k, key(x))) {
@@ -901,8 +901,8 @@ namespace ft {
 		}
 
 		const_iterator upper_bound(const key_type& k) const {
-			const_link_type x = begin();
-			const_link_type y = end();
+			const_link_type x = m_begin();
+			const_link_type y = m_end();
 
 			while (x != 0) {
 				if (key_compare(k, key(x))) {
@@ -926,8 +926,8 @@ namespace ft {
 		bool rb_verify() const {
 			if (node_count == 0 || begin() == end())
 				return (node_count == 0 && begin() == end()
-				&& this->header.left == end()
-				&& this->header.right == end());
+				&& this->header.left == m_end()
+				&& this->header.right == m_end());
 
 			unsigned int len = Rb_tree_black_count(leftmost(), root());
 			for (const_iterator it = begin(); it != end(); ++it) {

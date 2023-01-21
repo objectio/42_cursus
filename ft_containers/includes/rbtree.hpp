@@ -46,6 +46,7 @@ namespace ft {
 		Val							value_field;
 	};
 
+	// @brief 인자로 들어오는 x 바로 다음으로 큰 노드를 반환 (트리 다이어그램에서 오른쪽)
 	Rb_tree_node_base* Rb_tree_increment (Rb_tree_node_base* x) {
 		if (x->right != 0) {
 			x = x->right;
@@ -513,8 +514,14 @@ namespace ft {
 
 		link_type create_node(const value_type& x) { // OB
 			link_type tmp = get_node();
-			get_allocator().construct(&tmp->value_field, x);
-			put_node(tmp);
+
+			try {
+				get_allocator().construct(&tmp->value_field, x);
+			}
+			catch(std::exception& e) {
+				put_node(tmp);
+				throw e;
+			}
 			return (tmp);
 		}
 
@@ -653,7 +660,32 @@ namespace ft {
 			return (const_iterator(z));
 		}
 
-		link_type copy(const_link_type x, link_type p);  // TODO
+		link_type copy(const_link_type x, link_type p) {
+			link_type top = clone_node(x);
+			top->parent = p;
+
+			try {
+				if (x->right)
+					top->right = copy(right(x), top);
+				p = top;
+				x = left(x);
+
+				while (x != 0) {
+					link_type y = clone_node(x);
+					p->left = y;
+					y->parent = p;
+					if (x->right)
+						y->right = copy(right(x), y);
+					p = y;
+					x = left(x);
+				}
+			}
+			catch (std::exception& e) {
+				erase(top);
+				throw e;
+			}
+			return (top);
+		}
 
 		void erase(link_type x) {
 			while (x != 0) {
@@ -763,9 +795,158 @@ namespace ft {
 			return (get_allocator().max_size());
 		}
 
-		void swap(Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& t); // TODO
+		void swap(Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& t) {
+			if (root() == 0) {
+				if (t.root() != 0) {
+					root() = t.root();
+					leftmost() = t.leftmost();
+					rightmost() = t.rightmost();
+					root()->parent = m_end();
 
-		// TODO : insert_equal or insert_unique ?
+					t.root() = 0;
+					t.leftmost() = t.m_end();
+					t.rightmost() = t.m_end();
+				}
+			}
+			else if (t.root() == 0) {
+				t.root() = root();
+				t.leftmost() = leftmost();
+				t.rightmost() = rightmost();
+				t.root()->parent = t.m_end();
+
+				root() = 0;
+				leftmost() = m_end();
+				rightmost() = m_end();
+			}
+			else {
+				Rb_tree_node_base* tmp_root = root();
+				root() = t.root();
+				t.root() = tmp_root;
+
+				Rb_tree_node_base* tmp_leftmost = leftmost();
+				leftmost() = t.leftmost();
+				t.leftmost() = tmp_leftmost;
+
+				Rb_tree_node_base* tmp_rightmost = rightmost();
+				rightmost() = t.rightmost();
+				t.rightmost() = tmp_rightmost;
+
+				root()->parent = m_end();
+				t.root()->parent = t.m_end();
+			}
+			size_t node_count_tmp = this->node_count;
+			this->node_count = t.node_count;
+			t.node_count = node_count_tmp;
+
+			Compare key_compare_tmp = this->key_compare;
+			this->key_compare = t.key_compare;
+			t.key_compare = key_compare_tmp;
+
+			Node_allocator alloc_tmp = this->get_Node_allocator();
+			this->get_Node_allocator() = t.get_Node_allocator();
+			t.get_Node_allocator() = alloc_tmp;
+		}
+
+		/* INSERT ERASE */
+		ft::pair<iterator, bool> insert_unique(const value_type& v) {
+			link_type x = m_begin();
+			link_type y = m_end();
+			bool comp = true;
+			while (x != 0) {
+				y = x;
+				comp = key_compare(KeyOfValue()(v), key(x));
+				x = comp ? left(x) : right(x);
+			}
+			iterator i = iterator(y);
+			if (comp) 
+				if (i == begin())
+					return ft::pair<iterator, bool>(insert(x, y, v), true);
+				else
+					--i;
+			if (key_compare(key(i.node), KeyOfValue()(v)))
+				return ft::pair<iterator, bool>(insert(x, y, v), true);
+			return (ft::pair<iterator, bool>(i, false));
+		}
+
+		iterator insert_unique(iterator position, const value_type& v) {
+			if (position.node == m_end()) {
+				if (size() > 0 && key_compare(key(rightmost()), KeyOfValue()(v)))
+					return (insert(0, rightmost(), v));
+				else
+					return (insert_unique(v).first);
+			}
+			else if (key_compare(KeyOfValue()(v), key(position.node))) {
+				iterator before = position;
+				if (position.node == leftmost()) // begin()
+					return (insert(leftmost(), leftmost(), v));
+				else if (key_compare(key((--before).node), KeyOfValue()(v))) {
+					if (right(before.node) == 0)
+						return (insert(0, before.node, v));
+					else
+						return (insert(position.node, position.node, v));
+				}
+				else
+					return (insert_unique(v).first);
+			}
+			else if (key_compare(key(position.node), KeyOfValue()(v))) {
+				iterator after = position;
+				if (position.node == rightmost())
+					return (insert(0, rightmost(), v));
+				else if (key_compare(KeyOfValue()(v), key((++after).node))) {
+					if (right(position.node) == 0)
+						return (insert(0, position.node, v));
+					else
+						return (insert(after.node, after.node, v));
+				}
+				else
+					return (insert_unique(v).first);
+			}
+			else
+				return (position);
+		}
+
+		const_iterator insert_unique(const_iterator position, const value_type& v) {
+			if (position.node == m_end()) {
+				if (size() > 0 && key_compare(key(rightmost()), KeyOfValue()(v)))
+					return (insert(0, rightmost(), v));
+				else
+					return const_iterator(insert_unique(v).first);
+			}
+			else if (key_compare(KeyOfValue()(v), key(position.node))) {
+				const_iterator before = position;
+				if (position.node == leftmost()) // begin()
+					return (insert(leftmost(), leftmost(), v));
+				else if (key_compare(key((--before).node), KeyOfValue()(v))) {
+					if (right(before.node) == 0)
+						return (insert(0, before.node, v));
+					else
+						return (insert(position.node, position.node, v));
+				}
+				else
+					return const_iterator(insert_unique(v).first);
+			}
+			else if (key_compare(key(position.node), KeyOfValue()(v))) {
+				const_iterator after = position;
+				if (position.node == rightmost())
+					return (insert(0, rightmost(), v));
+				else if (key_compare(KeyOfValue()(v), key((++after).node))) {
+					if (right(position.node) == 0)
+						return (insert(0, position.node, v));
+					else
+						return (insert(after.node, after.node, v));
+				}
+				else
+					return const_iterator(insert_unique(v).first);
+			}
+			else
+				return (position);
+		}
+
+		template<typename InputIterator>
+		void insert_unique(InputIterator first, InputIterator last) {
+			for (; first != last; ++first)
+				insert_unique(end(), *first);
+		}
 
 		void erase(iterator position) {
 			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(position.node, this->header));

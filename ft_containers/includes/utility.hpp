@@ -7,11 +7,10 @@ namespace ft {
     template <class T1, class T2>
     struct pair {
         /*  MEMBER TYPES */
-        protected:
+        public:
         typedef T1 first_type;
         typedef T2 second_type;
 
-        public:
         /* MEMBER VARIABLES */
         T1 first;
         T2 second;

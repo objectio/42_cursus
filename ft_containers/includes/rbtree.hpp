@@ -858,11 +858,12 @@ namespace ft {
 				x = comp ? left(x) : right(x);
 			}
 			iterator i = iterator(y);
-			if (comp) 
+			if (comp) {
 				if (i == begin())
 					return ft::pair<iterator, bool>(insert(x, y, v), true);
 				else
 					--i;
+			}  // OB
 			if (key_compare(key(i.node), KeyOfValue()(v)))
 				return ft::pair<iterator, bool>(insert(x, y, v), true);
 			return (ft::pair<iterator, bool>(i, false));

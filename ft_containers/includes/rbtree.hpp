@@ -486,17 +486,13 @@ namespace ft {
 		typedef ptrdiff_t					difference_type;
 		typedef Alloc						allocator_type;
 
-		/* MEMBER VARIABLE */
-		Compare								key_compare;
-		Rb_tree_node_base					header;
-		size_type							node_count;
 
 		Node_allocator& get_Node_allocator() {
-			return (*static_cast<Node_allocator*>(&this));
+			return (*static_cast<Node_allocator*>(&this->impl));
 		}
 
 		const Node_allocator& get_Node_allocator() const {
-			return (*static_cast<const Node_allocator*>(&this));
+			return (*static_cast<const Node_allocator*>(&this->impl));
 		}
 
 		allocator_type get_allocator() const {
@@ -505,11 +501,11 @@ namespace ft {
 
 		protected:
 		Rb_tree_node* get_node() {
-			return (Node_allocator::allocate(1));
+			return (impl.Node_allocator::allocate(1));
 		}
 
 		void put_node(Rb_tree_node* p) {
-			Node_allocator::deallocate(p, 1);
+			impl.Node_allocator::deallocate(p, 1);
 		}
 
 		link_type create_node(const value_type& x) { // OB
@@ -538,44 +534,63 @@ namespace ft {
 			put_node(p);
 		}
 
+		protected:
+		template <typename Key_Compare>
+		struct Rb_tree_impl : public Node_allocator {
+			/* MEMBER VARIABLE */
+			Key_Compare			key_compare;
+			Rb_tree_node_base	header;
+			size_type			node_count;
+
+			Rb_tree_impl(const Node_allocator& a = Node_allocator(), const Key_Compare& comp = Key_Compare())
+			: Node_allocator(a), key_compare(comp), header(), node_count(0) {
+				this->header.color = red;
+				this->header.parent = 0;
+				this->header.left = &this->header;
+				this->header.right = &this->header;
+			}
+		};
+
+		Rb_tree_impl<Compare> impl;
+
 		base_ptr& root() {
-			return (this->header.parent);
+			return (this->impl.header.parent);
 		}
 
 		const_base_ptr root() const {
-			return (this->header.parent);
+			return (this->impl.header.parent);
 		}
 
 		base_ptr& leftmost() {
-			return (this->header.left);
+			return (this->impl.header.left);
 		}
 
 		const_base_ptr leftmost() const {
-			return (this->header.left);
+			return (this->impl.header.left);
 		}
 
 		base_ptr& rightmost() {
-			return (this->header.right);
+			return (this->impl.header.right);
 		}
 
 		const_base_ptr rightmost() const {
-			return (this->header.right);
+			return (this->impl.header.right);
 		}
 
 		link_type m_begin() {
-			return (static_cast<link_type>(this->header.parent));
+			return (static_cast<link_type>(this->impl.header.parent));
 		}
 
 		const_link_type m_begin() const {
-			return (static_cast<const_link_type>(this->header.parent));
+			return (static_cast<const_link_type>(this->impl.header.parent));
 		}
 
 		link_type m_end() {
-			return (static_cast<link_type>(&this->header));
+			return (static_cast<link_type>(&this->impl.header));
 		}
 
 		const_link_type m_end() const {
-			return (static_cast<const_link_type>(&this->header));
+			return (static_cast<const_link_type>(&this->impl.header));
 		}
 
 		static const_reference value(const_link_type x) {
@@ -634,29 +649,29 @@ namespace ft {
 
 		private:
 		iterator insert(base_ptr x, base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == m_end() || key_compare(KeyOfValue()(v), key(y)));
+			bool insert_left = (x != 0 || y == m_end() || impl.key_compare(KeyOfValue()(v), key(y)));
 			link_type z = create_node(v);
 
-			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
-			++node_count;
+			Rb_tree_insert_and_rebalance(insert_left, z, y, this->impl.header);
+			++impl.node_count;
 			return (iterator(z));
 		}
 
 		iterator insert_lower(base_ptr x, base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == m_end() || !key_compare(key(y), KeyOfValue()(v)));
+			bool insert_left = (x != 0 || y == m_end() || !impl.key_compare(key(y), KeyOfValue()(v)));
 			link_type z = create_node(v);
 
-			Rb_tree_insert_and_rebalance(insert_left, z, y, this->header);
-			++node_count;
+			Rb_tree_insert_and_rebalance(insert_left, z, y, this->impl.header);
+			++impl.node_count;
 			return (iterator(z));
 		}
 
 		const_iterator insert(const_base_ptr x, const_base_ptr y, const value_type& v) {
-			bool insert_left = (x != 0 || y == m_end() || key_compare(KeyOfValue()(v), key(y)));
+			bool insert_left = (x != 0 || y == m_end() || impl.key_compare(KeyOfValue()(v), key(y)));
 			link_type z = create_node(v);
 
-			Rb_tree_insert_and_rebalance(insert_left, z, const_cast<base_ptr>(y), this->header);
-			++node_count;
+			Rb_tree_insert_and_rebalance(insert_left, z, const_cast<base_ptr>(y), this->impl.header);
+			++impl.node_count;
 			return (const_iterator(z));
 		}
 
@@ -699,32 +714,16 @@ namespace ft {
 		public:
 		Rb_tree() { }
 
-		Rb_tree(const Compare& comp) : Node_allocator(allocator_type()), key_compare(comp), header(), node_count(0) {
-			this->header.color = red;
-			this->header.parent = 0;
-			this->header.left = &this->header;
-			this->header.right = &this->header;
-		}
+		Rb_tree(const Compare& comp) : impl(allocator_type(), comp) { }
 
-		Rb_tree(const Compare& comp, const allocator_type& a)
-		: Node_allocator(a), key_compare(comp), header(), node_count(0) {
-			this->header.color = red;
-			this->header.parent = 0;
-			this->header.left = &this->header;
-			this->header.right = &this->header;
-		}
+		Rb_tree(const Compare& comp, const allocator_type& a) : impl(a, comp) { }
 
-		Rb_tree(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x)
-		: Node_allocator(x.get_Node_allocator()), key_compare(x.key_compare), header(), node_count(x.node_count) {
-			this->header.color = red;
-			this->header.parent = 0;
-			this->header.left = &this->header;
-			this->header.right = &this->header;
-
+		Rb_tree(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x) : impl(x.get_Node_allocator(), x.impl.key_compare) {
 			if (x.root() != 0) {
 				root() = copy(x.m_begin(), m_end());
 				leftmost() = minimum(root());
 				rightmost() = maximum(root());
+				impl.node_count = x.impl.node_count;
 			}
 		}
 
@@ -735,12 +734,12 @@ namespace ft {
 		Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& operator=(const Rb_tree<Key, Val, KeyOfValue, Compare, Alloc>& x) {
 			if (this != &x) {
 				clear();
-				this->key_compare = x.key_compare;
+				this->impl.key_compare = x.impl.key_compare;
 				if (x.root() != 0) {
 					root() = copy(x.m_begin(), m_end());
 					leftmost() = minimum(root());
 					rightmost() = maximum(root());
-					node_count = x.node_count;
+					impl.node_count = x.impl.node_count;
 				}
 			}
 			return (*this);
@@ -748,23 +747,23 @@ namespace ft {
 
 		/* ACCESSORS */
 		Compare key_comp() const {
-			return (key_compare);
+			return (impl.key_compare);
 		}
 
 		iterator begin() {
-			return (iterator(static_cast<link_type>(this->header.left)));
+			return (iterator(static_cast<link_type>(this->impl.header.left)));
 		}
 
 		const_iterator begin() const {
-			return (const_iterator(static_cast<const_link_type>(this->header.left)));
+			return (const_iterator(static_cast<const_link_type>(this->impl.header.left)));
 		}
 
 		iterator end() {
-			return (iterator(static_cast<link_type>(&this->header)));
+			return (iterator(static_cast<link_type>(&this->impl.header)));
 		}
 
 		const_iterator end() const {
-			return (const_iterator(static_cast<const_link_type>(&this->header)));
+			return (const_iterator(static_cast<const_link_type>(&this->impl.header)));
 		}
 
 		reverse_iterator rbegin() {
@@ -784,11 +783,11 @@ namespace ft {
 		}
 
 		bool empty() const {
-			return (node_count == 0);
+			return (impl.node_count == 0);
 		}
 
 		size_type size() const {
-			return (node_count);
+			return (impl.node_count);
 		}
 
 		size_type max_size() const {
@@ -834,13 +833,13 @@ namespace ft {
 				root()->parent = m_end();
 				t.root()->parent = t.m_end();
 			}
-			size_t node_count_tmp = this->node_count;
-			this->node_count = t.node_count;
-			t.node_count = node_count_tmp;
+			size_t node_count_tmp = this->impl.node_count;
+			this->impl.node_count = t.impl.node_count;
+			t.impl.node_count = node_count_tmp;
 
-			Compare key_compare_tmp = this->key_compare;
-			this->key_compare = t.key_compare;
-			t.key_compare = key_compare_tmp;
+			Compare key_compare_tmp = this->impl.key_compare;
+			this->impl.key_compare = t.impl.key_compare;
+			t.impl.key_compare = impl.key_compare_tmp;
 
 			Node_allocator alloc_tmp = this->get_Node_allocator();
 			this->get_Node_allocator() = t.get_Node_allocator();
@@ -854,7 +853,7 @@ namespace ft {
 			bool comp = true;
 			while (x != 0) {
 				y = x;
-				comp = key_compare(KeyOfValue()(v), key(x));
+				comp = impl.key_compare(KeyOfValue()(v), key(x));
 				x = comp ? left(x) : right(x);
 			}
 			iterator i = iterator(y);
@@ -864,23 +863,23 @@ namespace ft {
 				else
 					--i;
 			}  // OB
-			if (key_compare(key(i.node), KeyOfValue()(v)))
+			if (impl.key_compare(key(i.node), KeyOfValue()(v)))
 				return ft::pair<iterator, bool>(insert(x, y, v), true);
 			return (ft::pair<iterator, bool>(i, false));
 		}
 
 		iterator insert_unique(iterator position, const value_type& v) {
 			if (position.node == m_end()) {
-				if (size() > 0 && key_compare(key(rightmost()), KeyOfValue()(v)))
+				if (size() > 0 && impl.key_compare(key(rightmost()), KeyOfValue()(v)))
 					return (insert(0, rightmost(), v));
 				else
 					return (insert_unique(v).first);
 			}
-			else if (key_compare(KeyOfValue()(v), key(position.node))) {
+			else if (impl.key_compare(KeyOfValue()(v), key(position.node))) {
 				iterator before = position;
 				if (position.node == leftmost()) // begin()
 					return (insert(leftmost(), leftmost(), v));
-				else if (key_compare(key((--before).node), KeyOfValue()(v))) {
+				else if (impl.key_compare(key((--before).node), KeyOfValue()(v))) {
 					if (right(before.node) == 0)
 						return (insert(0, before.node, v));
 					else
@@ -889,11 +888,11 @@ namespace ft {
 				else
 					return (insert_unique(v).first);
 			}
-			else if (key_compare(key(position.node), KeyOfValue()(v))) {
+			else if (impl.key_compare(key(position.node), KeyOfValue()(v))) {
 				iterator after = position;
 				if (position.node == rightmost())
 					return (insert(0, rightmost(), v));
-				else if (key_compare(KeyOfValue()(v), key((++after).node))) {
+				else if (impl.key_compare(KeyOfValue()(v), key((++after).node))) {
 					if (right(position.node) == 0)
 						return (insert(0, position.node, v));
 					else
@@ -908,16 +907,16 @@ namespace ft {
 
 		const_iterator insert_unique(const_iterator position, const value_type& v) {
 			if (position.node == m_end()) {
-				if (size() > 0 && key_compare(key(rightmost()), KeyOfValue()(v)))
+				if (size() > 0 && impl.key_compare(key(rightmost()), KeyOfValue()(v)))
 					return (insert(0, rightmost(), v));
 				else
 					return const_iterator(insert_unique(v).first);
 			}
-			else if (key_compare(KeyOfValue()(v), key(position.node))) {
+			else if (impl.key_compare(KeyOfValue()(v), key(position.node))) {
 				const_iterator before = position;
 				if (position.node == leftmost()) // begin()
 					return (insert(leftmost(), leftmost(), v));
-				else if (key_compare(key((--before).node), KeyOfValue()(v))) {
+				else if (impl.key_compare(key((--before).node), KeyOfValue()(v))) {
 					if (right(before.node) == 0)
 						return (insert(0, before.node, v));
 					else
@@ -926,11 +925,11 @@ namespace ft {
 				else
 					return const_iterator(insert_unique(v).first);
 			}
-			else if (key_compare(key(position.node), KeyOfValue()(v))) {
+			else if (impl.key_compare(key(position.node), KeyOfValue()(v))) {
 				const_iterator after = position;
 				if (position.node == rightmost())
 					return (insert(0, rightmost(), v));
-				else if (key_compare(KeyOfValue()(v), key((++after).node))) {
+				else if (impl.key_compare(KeyOfValue()(v), key((++after).node))) {
 					if (right(position.node) == 0)
 						return (insert(0, position.node, v));
 					else
@@ -952,13 +951,13 @@ namespace ft {
 		void erase(iterator position) {
 			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(position.node, this->header));
 			destroy_node(y);
-			--node_count;
+			--impl.node_count;
 		}
 
 		void erase(const_iterator position) {
 			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(const_cast<base_ptr>(position.node), this->header));
 			destroy_node(y);
-			--node_count;
+			--impl.node_count;
 		}
 
 		size_type erase(const key_type& x) {
@@ -993,7 +992,7 @@ namespace ft {
 			leftmost() = m_end();
 			root() = 0;
 			rightmost() = m_end();
-			node_count = 0;
+			impl.node_count = 0;
 		}
 
 		// Set operations
@@ -1002,7 +1001,7 @@ namespace ft {
 			link_type y = m_end();
 
 			while (x != 0) {
-				if (!key_compare(key(x), k)) {
+				if (!impl.key_compare(key(x), k)) {
 					y = x;
 					x = left(x);
 				}
@@ -1011,7 +1010,7 @@ namespace ft {
 			}
 
 			iterator i = iterator(y);
-			return ((i == end() || key_compare(k, key(i.node))) ? end() : i);
+			return ((i == end() || impl.key_compare(k, key(i.node))) ? end() : i);
 		}
 
 		const_iterator find(const key_type& k) const  {
@@ -1019,7 +1018,7 @@ namespace ft {
 			const_link_type y = m_end();
 
 			while (x != 0) {
-				if (!key_compare(key(x), k)) {
+				if (!impl.key_compare(key(x), k)) {
 					y = x;
 					x = left(x);
 				}
@@ -1028,7 +1027,7 @@ namespace ft {
 			}
 
 			const_iterator i = const_iterator(y);
-			return ((i == end() || key_compare(k, key(i.node))) ? end() : i);
+			return ((i == end() || impl.key_compare(k, key(i.node))) ? end() : i);
 		}
 
 		size_type count(const key_type& k) const {
@@ -1042,7 +1041,7 @@ namespace ft {
 			link_type y = m_end();
 
 			while (x != 0) {
-				if (!key_compare(key(x), k)) {
+				if (!impl.key_compare(key(x), k)) {
 					y = x;
 					x = left(x);
 				}
@@ -1057,7 +1056,7 @@ namespace ft {
 			const_link_type y = m_end();
 
 			while (x != 0) {
-				if (!key_compare(key(x), k)) {
+				if (!impl.key_compare(key(x), k)) {
 					y = x;
 					x = left(x);
 				}
@@ -1072,7 +1071,7 @@ namespace ft {
 			link_type y = m_end();
 
 			while (x != 0) {
-				if (key_compare(k, key(x))) {
+				if (impl.key_compare(k, key(x))) {
 					y = x;
 					x = left(x);
 				}
@@ -1087,7 +1086,7 @@ namespace ft {
 			const_link_type y = m_end();
 
 			while (x != 0) {
-				if (key_compare(k, key(x))) {
+				if (impl.key_compare(k, key(x))) {
 					y = x;
 					x = left(x);
 				}
@@ -1106,8 +1105,8 @@ namespace ft {
 		}
 
 		bool rb_verify() const {
-			if (node_count == 0 || begin() == end())
-				return (node_count == 0 && begin() == end()
+			if (impl.node_count == 0 || begin() == end())
+				return (impl.node_count == 0 && begin() == end()
 				&& this->header.left == m_end()
 				&& this->header.right == m_end());
 
@@ -1121,10 +1120,10 @@ namespace ft {
 					if ((L && L->color == red) || (R && R->color == red))
 						return (false);
 
-				if (L && key_compare(key(x), key(L)))
+				if (L && impl.key_compare(key(x), key(L)))
 					return (false);
 
-				if (R && key_compare(key(R), key(x)))
+				if (R && impl.key_compare(key(R), key(x)))
 					return (false);
 
 				if (!L && !R && Rb_tree_black_count(x, root()) != len)

@@ -839,7 +839,7 @@ namespace ft {
 
 			Compare key_compare_tmp = this->impl.key_compare;
 			this->impl.key_compare = t.impl.key_compare;
-			t.impl.key_compare = impl.key_compare_tmp;
+			t.impl.key_compare = key_compare_tmp;
 
 			Node_allocator alloc_tmp = this->get_Node_allocator();
 			this->get_Node_allocator() = t.get_Node_allocator();

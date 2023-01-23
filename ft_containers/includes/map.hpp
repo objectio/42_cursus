@@ -332,12 +332,12 @@ namespace ft {
 
 	template <typename Key, typename T, typename Compare, typename Allocator>
 	bool operator>(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y) {
-		return (x > y);
+		return (y < x);
 	}
 
 	template <typename Key, typename T, typename Compare, typename Allocator>
 	bool operator<=(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y) {
-		return !(x > y);
+		return !(y < x);
 	}
 
 	template <typename Key, typename T, typename Compare, typename Allocator>

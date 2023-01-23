@@ -17,6 +17,17 @@ namespace ft {
 		}
 	};
 
+	template <class T>
+	struct Identity : public std::unary_function<T, T>
+	{
+		T& operator()(T& x) const {
+			return (x);
+		}
+
+		const T& operator()(const T& x) const {
+			return (x);
+		}
+	};
 }
 
 #endif

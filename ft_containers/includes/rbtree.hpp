@@ -949,13 +949,13 @@ namespace ft {
 		}
 
 		void erase(iterator position) {
-			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(position.node, this->header));
+			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(position.node, this->impl.header));
 			destroy_node(y);
 			--impl.node_count;
 		}
 
 		void erase(const_iterator position) {
-			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(const_cast<base_ptr>(position.node), this->header));
+			link_type y = static_cast<link_type>(Rb_tree_rebalance_for_erase(const_cast<base_ptr>(position.node), this->impl.header));
 			destroy_node(y);
 			--impl.node_count;
 		}

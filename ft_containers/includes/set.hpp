@@ -88,26 +88,36 @@ namespace ft {
 			return (m_t.key_comp());
 		}
 
+		//  Returns the comparison object with which the %set was constructed.
 		value_compare value_comp() const {
 			return (m_t.key_comp());
 		}
 
+		//  Returns the allocator object with which the %set was constructed.
 		allocator_type get_allocator() const {
 			return (m_t.get_allocator());
 		}
 
+		// Returns a read/write iterator that points to the first element in the %set.
+		// Iteration is done in ascending order according to the keys.
 		iterator begin() const {
 			return (m_t.begin());
 		}
 
+		// Returns a read/write iterator that points one past the last element in the %set.
+		// Iteration is done in ascending order according to the keys.
 		iterator end() const {
 			return (m_t.end());
 		}
 
+		// Returns a read/write reverse iterator that points to the last element in the %set.
+		// Iteration is done in descending order according to the keys.
 		reverse_iterator rbegin() const {
 			return (m_t.rbegin());
 		}
 
+		// Returns a read-only (constant) reverse iterator that points to the last pair in the %map.
+		// Iteration is done in descending order according to the keys.
 		reverse_iterator rend() const {
 			return (m_t.rend());
 		}

@@ -139,11 +139,10 @@ namespace ft
 			return (begin() == end());
 		}
 
-		void reserve (size_type n) { // WIP
+		void reserve (size_type n) {
 			if (n > this->max_size())
 				throw std::length_error("ft::vector::reserve");
 			if (this->capacity() < n) {
-				//pointer tmp = allocate_and_copy(n, this->_start, this->_finish);
 				pointer tmp_start = this->_start;
 				pointer tmp_finish = this->_finish;
 				pointer tmp_end = this->_end;
@@ -227,17 +226,6 @@ namespace ft
 					this->_alloc.construct(this->_finish++, *tmp++);
 				this->_alloc.deallocate(tmp_start, tmp_end - tmp_start);			
 			}
-			// iterator cur(begin());  // OB
-
-			// while (first != last && cur != end()) {
-			// 	*cur = *first;
-			// 	if (first == last)
-			// 		erase(cur, end());
-			// 	else
-			// 		insert(end(), first, last);
-			// 	++cur;
-			// 	++first;
-			// }
 		}
 
 		void assign (size_type n, const value_type& val) {
@@ -259,17 +247,6 @@ namespace ft
 				this->_alloc.deallocate(tmp_start, tmp_end - tmp_start);
 
 			}
-			// if (n > capacity()) {
-			// 	vector tmp(n, val, this->_alloc);
-			// 	tmp.swap(*this);
-			// }
-			// else {
-			// 	// std::fill(begin(), end(), val);
-			// 	// std::uninitialized_fill_n(end(), n - size(), val);  // OB
-			// 	// this->_finish += n - size();
-			// 	while (n--)
-			// 		this->_alloc.allocate(this->_finish++, val);
-			// }
 		}
 
 		void push_back (const value_type& val) {
@@ -283,7 +260,7 @@ namespace ft
 				++this->_finish;
 		}
 
-		void pop_back() {  // size() 검사 할까말까
+		void pop_back() {
 			--this->_finish;
 			this->_alloc.destroy(this->_finish);
 		}
@@ -347,14 +324,12 @@ namespace ft
 			if (last != end())
 				std::copy(last, end(), first);
 			pointer pos = first.base() + (end() - last); 
-			// std::_Destroy(pos, this->_finish, this->_alloc);
-			// this->_finish = pos;
 			while (pos != this->_finish)
 				this->_alloc.destroy(this->_finish--);
 			return (first);
 		}
 
-		void swap (vector& x) { // OB
+		void swap (vector& x) {
 			pointer tmp_start = this->_start; 
 			this->_start = x._start;
 			x._start = tmp_start;

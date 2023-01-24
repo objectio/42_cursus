@@ -122,52 +122,96 @@ namespace ft {
 			return (m_t.rend());
 		}
 		
+		// Returns true if the %set is empty.
 		bool empty() const {
 			return (m_t.empty());
 		}
 
+		// Returns the size of the %set.
 		size_type size() const {
 			return (m_t.size());
 		}
 
+		// Returns the maximum size of the %set.
 		size_type max_size() const {
 			return (m_t.max_size());
 		}
 
+		/*
+		 * @brief	Attempts to insert an element into the %set.
+		 * @param	val	Element to be inserted.
+		 * @return	A pair, of which the first element is an iterator that points to the possibly inserted element,
+		 * 			and the second is a bool that is true if the element was actually inserted.
+		 */
 		ft::pair<iterator, bool> insert (const value_type& val) {
 			ft::pair<iterator, bool> p = m_t.insert_unique(val);
 			return (ft::pair<iterator, bool>(p.first, p.second));
 		}
 
+		/*
+		 * @brief	Attempts to insert an element into the %set.
+		 * @param	position	An iterator that serves as a hint as to where the element should be inserted.
+		 * @param	val	Element to be inserted.
+		 * @return	An iterator that points to the element with key of @a val (may or may not be the element passed in).
+		 */
 		iterator insert (iterator position, const value_type& val) {
 			return (m_t.insert_unique(position, val));
 		}
 
+		/*
+		 * @brief	A template function that attemps to insert a range of elements.
+		 * @param	first	Iterator pointing to the start of the range to be inserted.
+		 * @param	last	Iterator pointing to the end of the range.
+		 */
 		template <class InputIterator>
 		void insert (InputIterator first, InputIterator last) {
 			m_t.insert_unique(first, last);
 		}
 
+		/*
+		 * @brief	Erases an element from a %set.
+		 * @param	position	An iterator pointing to the element to be erased.
+		 */
 		void erase (iterator position) {
 			m_t.erase(position);
 		}
 
+		/*
+		 * @brief	Erases elements according to the provided key.
+		 * @param	val	Key of element to be erased.
+		 * @return	The number of elements erased.
+		 */
 		size_type erase (const value_type& val) {
 			return (m_t.erase(val));
 		}
 
+		/*
+		 * @brief	Erases a [first,last) range of elements from a %set.
+		 * @param	first	Iterator pointing to the start of the range to be erased.
+		 * @param	last	Iterator pointing to the end of the range to be erased.
+		 */
 		void erase (iterator first, iterator last) {
 			m_t.erase(first, last);
 		}
 
+		/*
+		 * @brief	Swaps data with another %set.
+		 * @param	x	A %set of the same element and allocator types.
+		 */
 		void swap (set& x) {
 			m_t.swap(x.m_t);
 		}
 
+		// Erases all elements in a %set. 단, 담고 있는 요소가 포인터 변수인 경우는 건드리지 못함. 유저에게 처리를 맡김.
 		void clear() {
 			m_t.clear();
 		}
 
+		/*
+		 * @brief	Tries to locate an element in a %set.
+		 * @param	val	Element to be located.
+		 * @return	Iterator pointing to sought-after(찾고 있는) element, or end() if not found.
+		 */
 		iterator find (const value_type& val) {
 			return (m_t.find(val));
 		}
@@ -176,10 +220,20 @@ namespace ft {
 			return (m_t.find(val));
 		}
 
+		/*
+		 * @brief	Finds the number of elements.
+		 * @param	val	Element to located.
+		 * @return	Number of elements with specified key.
+		 */
 		size_type count (const value_type& val) const {
 			return (m_t.find(val) == m_t.end() ? 0 : 1);
 		}
 
+		/*
+		 * @brief	Finds the beginning of a subsequence matching given key.
+		 * @param	val	Key to be located.
+		 * @return	Iterator pointing to first element equal to or greater than key, or end().
+		 */
 		iterator lower_bound (const value_type& val) {
 			return (m_t.lower_bound(val));
 		}
@@ -188,6 +242,11 @@ namespace ft {
 			return (m_t.lower_bound(val));
 		}
 
+		/*
+		 * @brief	Finds the end of a subsequence matching given key.
+		 * @param	val	Key to be located.
+		 * @return	Iterator pointing to first element equal to or greater than key, or end().
+		 */
 		iterator upper_bound (const value_type& val) {
 			return (m_t.upper_bound(val));
 		}
@@ -196,6 +255,11 @@ namespace ft {
 			return (m_t.upper_bound(val));
 		}
 
+		/*
+		 * @brief	Finds a subsequence matching given key.
+		 * @param	val	Key to be located.
+		 * @return	Pair of iterators that possibly points to the subsequence matching given key.
+		 */
 		ft::pair<iterator, iterator> equal_range (const value_type& val) {
 			return (m_t.equal_range(val));
 		}
@@ -211,11 +275,23 @@ namespace ft {
 		friend bool operator<(const set<K1, C1, A1>&, const set<K1, C1, A1>&);
 	};
 
+	/*
+	 * @brief	Set equality comparison.
+	 * @param	x	A %set.
+	 * @param	y	A %set of the same type as @a x.
+	 * @return	True if the size and elements of the sets are equal.
+	 */
 	template <class Key, class Compare, class Alloc>
 	bool operator==(const set<Key, Compare, Alloc>& x, const set<Key, Compare, Alloc>& y) {
 		return (x.m_t == y.m_t);
 	}
 
+	/*
+	 * @brief	Set ordering relation.
+	 * @param	x	A %set.
+	 * @param	y	A %set of the same type as @a x.
+	 * @return	True if @a x is lexicographically less than @a y.
+	 */
 	template <class Key, class Compare, class Alloc>
 	bool operator<(const set<Key, Compare, Alloc>& x, const set<Key, Compare, Alloc>& y) {
 		return (x.m_t < y.m_t);

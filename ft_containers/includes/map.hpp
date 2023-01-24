@@ -63,7 +63,7 @@ namespace ft {
 
 		/*
 		 * @breif	Map copy constructor.
-		 * @param	x,	A %map of identical element and allocator types.
+		 * @param	x	A %map of identical element and allocator types.
 		 * 
 		 * The newly-created %map uses a copy of the allocation object used by @a x.
 		 */
@@ -72,8 +72,8 @@ namespace ft {
 
 		/*
 		 * @breif	Builds a %map from a range.
-		 * @param	first,	An input iterator.
-		 * @param	last,	An input iterator.
+		 * @param	first	An input iterator.
+		 * @param	last	An input iterator.
 		 * 
 		 * Create a %map consisting of copies of the elements from [first,last).
 		 * This is linear in N if the range is already sorted, and NlogN otherwise (where N is distance(first,last)).
@@ -86,10 +86,10 @@ namespace ft {
 
 		/*
 		 * @breif	Builds a %map from a range.
-		 * @param	first,	An input iterator.
-		 * @param	last,	An input iterator.
-		 * @param	comp,	A comparison functor.
-		 * @param	a,		An allocator object.
+		 * @param	first	An input iterator.
+		 * @param	last	An input iterator.
+		 * @param	comp	A comparison functor.
+		 * @param	a		An allocator object.
 		 * 
 		 * Create a %map consisting of copies of the elements from [first,last).
 		 * This is linear in N if the range is already sorted, and NlogN otherwise (where N is distance(first,last)).
@@ -101,8 +101,8 @@ namespace ft {
 		}
 
 		/*
-		 * @breif	Map assignment operator.
-		 * @param	x, A %map of identical element and allocator types.
+		 * @breif	Map	assignment operator.
+		 * @param	x	A %map of identical element and allocator types.
 		 * 
 		 * All the elements of @a x are copied, but unlike the copy constructor, the allocator object is not copied.
 		 */
@@ -174,8 +174,8 @@ namespace ft {
 
 		/*
 		 * @breif	element accessor to %map data.
-		 * @param	k,	검색하고 싶은 값의 key
-		 * @return	A reference to the data of the (key,data) %pair.
+		 * @param	k	검색하고 싶은 값의 key
+		 * @return	A	reference to the data of the (key,data) %pair.
 		 */
 		mapped_type& operator[](const key_type& k) {
 			iterator i = lower_bound(k);
@@ -186,8 +186,8 @@ namespace ft {
 
 		/*
 		 * @breif	Access to %map data.
-		 * @param	k,	검색하고 싶은 값의 key
-		 * @return	A reference to the data whose key is equivalent to @a k, if such a data is present in the %map.
+		 * @param	k	검색하고 싶은 값의 key
+		 * @return	A	reference to the data whose key is equivalent to @a k, if such a data is present in the %map.
 		 * @throw	std::out_of_range  If no such data is present.
 		 */
 		mapped_type& at(const key_type& k) {
@@ -206,7 +206,7 @@ namespace ft {
 
 		/*
 		 * @breif	Attempts to insert a ft::pair into the %map.
-		 * @param	x,	Pair to be inserted.
+		 * @param	x	Pair to be inserted.
 		 * @return	first 요소로 inserted pair를 가리키는 iterator, 
 		 * 			second 요소로 pair의 inserted 여부를 알려주는 bool을 가지는 pair.
 		 */
@@ -216,8 +216,8 @@ namespace ft {
 
 		/*
 		 * @breif	Attempts to insert a ft::pair into the %map.
-		 * @param	position,	user가 insert를 최적화시킬 수 있는 위치(hint)를 인자로 넘겨줌.
-		 * @param	x,	Pair to be inserted.
+		 * @param	position	user가 insert를 최적화시킬 수 있는 위치(hint)를 인자로 넘겨줌.
+		 * @param	x	Pair to be inserted.
 		 * @return	x의 키가 들어있는 요소를 가리키는 iterator. 
 		 */
 		iterator insert(iterator position, const value_type& x) {
@@ -226,8 +226,8 @@ namespace ft {
 
 		/*
 		 * @breif	Template function that attemps to insert a range of elements.
-		 * @param	first,	Iterator pointing to the start of the range to be inserted.
-		 * @param	last,	Iterator pointing to the end of the range.
+		 * @param	first	Iterator pointing to the start of the range to be inserted.
+		 * @param	last	Iterator pointing to the end of the range.
 		 * @return	x의 키가 들어있는 요소를 가리키는 iterator. 
 		 */
 		template <typename InputIterator>
@@ -237,7 +237,7 @@ namespace ft {
 
 		/*
 		 * @brief	Erases an element from a %map.
-		 * @param	position,	An iterator pointing to the element to be erased.
+		 * @param	position	An iterator pointing to the element to be erased.
 		 */
 		void erase(iterator position) {
 			m_t.erase(position);
@@ -245,65 +245,125 @@ namespace ft {
 
 		/*
 		 * @brief	Erases elements according to the provided key.
-		 * @param	x,	Key of element to be erased.
+		 * @param	x	Key of element to be erased.
 		 * @return	The number of elements erased.
 		 */
 		size_type erase(const key_type& x) {
 			return (m_t.erase(x));
 		}
 
+		/*
+		 * @brief	Erases a [first,last) range of elements from a %map.
+		 * @param	first	Iterator pointing to the start of the range to be erased.
+		 * @param	last	Iterator pointing to the end of the range to be erased.
+		 */
 		void erase(iterator first, iterator last) {
 			m_t.erase(first, last);
 		}
 
+		/* @brief	Swaps data with another %map.
+		 * @param	x	A %map of the same element and allocator types.
+		 */
 		void swap(map& x) {
 			m_t.swap(x.m_t);
 		}
 
+		// Erases all elements in a %map. except for pointer-to memory
 		void clear() {
 			m_t.clear();
 		}
 
+		// Return the key comparison object out of which the %map was constructed.
 		key_compare key_comp() const {
 			return (m_t.key_comp());
 		}
 
+		// Returns a value comparison object, built from the key comparison object out of which the %map was constructed.
 		value_compare value_comp() const {
 			return (value_compare(m_t.key_comp()));
 		}
 
+		/*
+		 * @brief	Tries to locate an element in a %map.
+		 * @param	x	Key of (key, value) %pair to be located.
+		 * @return	Iterator pointing to sought-after element, or end() if not found.
+		 */
 		iterator find(const key_type& x) {
 			return (m_t.find(x));
 		}
 
+		/*
+		 * @brief	Tries to locate an element in a %map.
+		 * @param	x	Key of (key, value) %pair to be located.
+		 * @return	Read-only (constant) iterator pointing to sought-after element, or end() if not found.
+		 */
 		const_iterator find(const key_type& x) const {
 			return (m_t.find(x));
 		}
 
+		/*
+		 * @brief	Finds the number of elements with given key.
+		 * @param	x	Key of (key, value) %pairs to be located.
+		 * @return	Number of elements with specified key.
+		 */
 		size_type count(const key_type& x) const {
 			return (m_t.find(x) == m_t.end() ? 0 : 1);
 		}
 
+		/*
+		 * @brief	Finds the beginning of a subsequence matching given key.
+		 * @param	x	Key of (key, value) pair to be located.
+		 * @return	Iterator pointing to first element equal to or greater than key, or end().
+		 */
 		iterator lower_bound(const key_type& x) {
 			return (m_t.lower_bound(x));
 		}
 
+		/*
+		 * @brief	Finds the beginning of a subsequence matching given key.
+		 * @param	x	Key of (key, value) pair to be located.
+		 * @return	Read-only (constant) iterator pointing to first element equal to or greater than key, or end().
+		 */
 		const_iterator lower_bound(const key_type& x) const {
 			return (m_t.lower_bound(x));
 		}
 
+		/*
+		 * @brief	Finds the end of a subsequence matching given key.
+		 * @param	x	Key of (key, value) pair to be located.
+		 * @return	Iterator pointing to the first element greater than key, or end().
+		 */
 		iterator upper_bound(const key_type& x) {
 			return (m_t.upper_bound(x));
 		}
 
+		/*
+		 * @brief	Finds the end of a subsequence matching given key.
+		 * @param	x	Key of (key, value) pair to be located.
+		 * @return	Read-only (constant) iterator pointing to the first element greater than key, or end().
+		 */
 		const_iterator upper_bound(const key_type& x) const {
 			return (m_t.upper_bound(x));
 		}
 
+		/*
+		 * @brief	Finds a subsequence matching given key.
+		 * @param	x	Key of (key, value) pairs to be located.
+		 * @return	Pair of iterators that possibly points to the subsequence matching given key.
+		 * 
+		 * This function is equivalent to ft::make_pair(c.lower_bound(val), c.upper_bound(val));
+		 */
 		ft::pair<iterator, iterator> equal_range(const key_type& x) {
 			return (m_t.equal_range(x));
 		}
 
+		/*
+		 * @brief	Finds a subsequence matching given key.
+		 * @param	x	Key of (key, value) pairs to be located.
+		 * @return	Pair of read-only (constant) iterators that possibly points to the subsequence matching given key.
+		 * 
+		 * This function is equivalent to ft::make_pair(c.lower_bound(val), c.upper_bound(val));
+		 */
 		ft::pair<const_iterator, const_iterator> equal_range(const key_type& x) const {
 			return (m_t.equal_range(x));
 		}
@@ -315,11 +375,23 @@ namespace ft {
 		friend bool operator<(const map<_Key, _T, _Compare, _Allocator>&, const map<_Key, _T, _Compare, _Allocator>&);
 	};
 
+	/*
+	 * @brief	Map equality comparison.
+	 * @param	x	A %map.
+	 * @param	y	A %map of the same type as @a x.
+	 * @return	True if the size and elements of the maps are equal.
+	 */
 	template <typename Key, typename T, typename Compare, typename Allocator>
 	bool operator==(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y) {
 		return (x.m_t == y.m_t);
 	}
 
+	/*
+	 * @brief	Map ordering relation.
+	 * @param	x	A %map.
+	 * @param	y	A %map of the same type as @a x.
+	 * @return	True if @a x is lexicographically less than @a y.
+	 */
 	template <typename Key, typename T, typename Compare, typename Allocator>
 	bool operator<(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y) {
 		return (x.m_t < y.m_t);

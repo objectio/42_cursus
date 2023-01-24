@@ -353,8 +353,8 @@ namespace ft {
 
 	Rb_tree_node_base* Rb_tree_rebalance_for_erase(Rb_tree_node_base* const z, Rb_tree_node_base& header) {
 		Rb_tree_node_base *& root = header.parent;
-		Rb_tree_node_base *& left = header.left;
-		Rb_tree_node_base *& right = header.right;
+		Rb_tree_node_base *& left = header.left; // leftmost()
+		Rb_tree_node_base *& right = header.right; // rightmost()
 		Rb_tree_node_base* y = z;
 		Rb_tree_node_base* x = 0;
 		Rb_tree_node_base* x_parent = 0;
@@ -364,7 +364,7 @@ namespace ft {
 		else {
 			if (y->right == 0)  // z has exactly one non-null child. y == z.
 				x = y->left;
-			else {
+			else {  // z has two non-null children.
 				y = y->right;
 				while (y->left != 0)
 					y = y->left;
@@ -373,6 +373,7 @@ namespace ft {
 		}
 
 		if (y != z) {
+			// relink y in place of z. y is z's successor.
 			z->left->parent = y;
 			y->left = z->left;
 			if (y != z->right) {
@@ -397,8 +398,9 @@ namespace ft {
 			y->color = z->color;
 			z->color = tmp;
 			y = z;
+			// y now points to node to be actually deleted.
 		}
-		else {
+		else { // y == z
 			x_parent = y->parent;
 			if (x)
 				x->parent = y->parent;
@@ -411,15 +413,15 @@ namespace ft {
 					z->parent->right = x;
 			
 			if (left == z) {
-				if (z->right == 0)
+				if (z->right == 0)  // z->left must be null also
 					left = z->parent;
-				else
+				else // makes leftmost == header if z == root
 					left = Rb_tree_node_base::minimum(x);
 			}
 			if (right == z) {
-				if (z->left == 0)
+				if (z->left == 0)  // z->right must be null also
 					right = z->parent;
-				else
+				else // makes rightmost == header if z == root
 					right = Rb_tree_node_base::maximum(x);
 			}
 		}

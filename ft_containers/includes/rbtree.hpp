@@ -46,7 +46,7 @@ namespace ft {
 		Val							value_field;
 	};
 
-	// @brief 인자로 들어오는 x 바로 다음으로 큰 노드를 반환 (트리 다이어그램에서 오른쪽)
+	// @brief	인자로 들어오는 x 바로 다음으로 큰 노드를 반환 (트리 다이어그램에서 오른쪽)
 	Rb_tree_node_base* Rb_tree_increment (Rb_tree_node_base* x) {
 		if (x->right != 0) {
 			x = x->right;
@@ -69,6 +69,7 @@ namespace ft {
 		return (Rb_tree_increment(const_cast<Rb_tree_node_base*>(x)));
 	}
 
+	// @brief	인자로 들어오는 x 바로 다음으로 작은 노드를 반환 (트리 다이어그램에서 왼쪽)
 	Rb_tree_node_base* Rb_tree_decrement(Rb_tree_node_base* x) {
 		if (x->color == red && x->parent->parent == x)
 			x = x->right;
@@ -152,12 +153,12 @@ namespace ft {
 
 	template <typename T>
 	struct Rb_tree_const_iterator {
-		typedef T			value_type;
-		typedef const T&	reference;
-		typedef const T*	pointer;
+		typedef T									value_type;
+		typedef const T&							reference;
+		typedef const T*							pointer;
 
 		typedef Rb_tree_iterator<T>					iterator;
-		typedef std::bidirectional_iterator_tag			iterator_category;
+		typedef std::bidirectional_iterator_tag		iterator_category;
 		typedef ptrdiff_t							difference_type;
 
 		typedef Rb_tree_const_iterator<T>			Self;
@@ -220,13 +221,28 @@ namespace ft {
 		return (x.node != y.node);
 	}
 
+	/*
+	 * @brief
+	 * @param	x	rotate의 축이 되는 노드. Rb_tree_node_base타입의 상수화된 포인터. 
+	 * @param	root	root 노드.
+	 */
 	void Rb_tree_rotate_left(Rb_tree_node_base* const x, Rb_tree_node_base*& root) {
+		// x->right가 nil이 아닐 때
+		// y = x의 오른쪽 자식
+		/*
+			   x
+			 /   \
+		   x.l    y
+			    /   \
+			  y.l   y.r
+		*/
+		
 		Rb_tree_node_base* const y = x->right;
 
-		x->right = y->left;
+		x->right = y->left;   // x와 y.l 연결
 		if (y->left != 0)
-			y->left->parent = x;
-		y->parent = x->parent;
+			y->left->parent = x;  // x와 y.l 연결
+		y->parent = x->parent;  // x.p y.p 대체하기
 
 		if (x == root)
 			root = y;
@@ -256,6 +272,13 @@ namespace ft {
 		x->parent = y;
 	}
 
+	/*
+	 * @brief
+	 * @param	insert_left	left에 값을 추가하면 true, 아니면 false.
+	 * @param	x	추가하려는 노드의 주소.
+	 * @param	p	추가하고 싶은 위치. x를 추가하고 싶다면 어느 노드의 아래에 달 것인지 쓴다.
+	 * @param	header	헤더 노드.
+	 */
 	void Rb_tree_insert_and_rebalance(const bool insert_left, Rb_tree_node_base* x, Rb_tree_node_base* p, Rb_tree_node_base& header) {
 		Rb_tree_node_base *& root = header.parent;
 
@@ -265,38 +288,39 @@ namespace ft {
 		x->right = 0;
 		x->color = red;
 
-		// insert
+		// Insert. 새로운 노드를 parent의 자식으로 만들고, root와 leftmost, rightmost 노드들도 반영한다.
+		// 처음으로 넣는 노드인 경우 항상 왼쪽에 추가시킨다.
 		if (insert_left) {
 			p->left = x;
 
 			if (p == &header) {
 				header.parent = x;
-				header.right = x;
+				header.right = x; // rightmost() update.
 			}
 			else if (p == header.left)
-				header.left = x;
+				header.left = x;  // leftmost() update.
 		}
 		else {
 			p->right = x;
 
 			if (p == header.right)
-				header.right = x;
+				header.right = x; // rightmost() update.
 		}
 
 		// rebalance
 		while (x != root && x->parent->color == red) {
 			Rb_tree_node_base* const xpp = x->parent->parent;
 
-			if (x->parent == xpp->left) {
-				Rb_tree_node_base* const y = xpp->right;
-				if (y && y->color == red) {
-					x->parent->color = black;
+			if (x->parent == xpp->left) {  // x's parent is a left child
+				Rb_tree_node_base* const y = xpp->right;  // y is x's right uncle
+				if (y && y->color == red) {    // when both x's parent and uncle are red,
+					x->parent->color = black;  // change them to black and make the grandparent red.
 					y->color = black;
 					xpp->color = red;
-					x = xpp;
+					x = xpp;  // continue at grandparent.
 				}
-				else {
-					if (x == x->parent->right) {
+				else {  // the parent is red, but the uncle is black
+					if (x == x->parent->right) {   // x is a right child
 						x = x->parent;
 						Rb_tree_rotate_left(x, root);
 					}
@@ -305,7 +329,7 @@ namespace ft {
 					Rb_tree_rotate_right(xpp, root);
 				}
 			}
-			else {
+			else {  // x's parent is a right child,  symmetric with other case
 				Rb_tree_node_base* const y = xpp->left;
 				if (y && y->color == red) {
 					x->parent->color = black;
@@ -459,7 +483,7 @@ namespace ft {
 					}
 				}
 			}
-			if (x) x->color = black; // OB
+			if (x) x->color = black;
 		}
 		return (y);
 	}
@@ -508,7 +532,7 @@ namespace ft {
 			impl.Node_allocator::deallocate(p, 1);
 		}
 
-		link_type create_node(const value_type& x) { // OB
+		link_type create_node(const value_type& x) {
 			link_type tmp = get_node();
 
 			try {

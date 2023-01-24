@@ -275,7 +275,7 @@ namespace ft {
 	/*
 	 * @brief
 	 * @param	insert_left	left에 값을 추가하면 true, 아니면 false.
-	 * @param	x	추가하려는 노드의 주소.
+	 * @param	x	추가하려는 노드.
 	 * @param	p	추가하고 싶은 위치. x를 추가하고 싶다면 어느 노드의 아래에 달 것인지 쓴다.
 	 * @param	header	헤더 노드.
 	 */
@@ -307,7 +307,7 @@ namespace ft {
 				header.right = x; // rightmost() update.
 		}
 
-		// rebalance
+		// Rebalance.
 		while (x != root && x->parent->color == red) {
 			Rb_tree_node_base* const xpp = x->parent->parent;
 
@@ -359,10 +359,10 @@ namespace ft {
 		Rb_tree_node_base* x = 0;
 		Rb_tree_node_base* x_parent = 0;
 
-		if (y->left == 0)
-			x = y->right;
+		if (y->left == 0)    // z has at most one non-null child. y == z.
+			x = y->right;    // x might be null.
 		else {
-			if (y->right == 0)
+			if (y->right == 0)  // z has exactly one non-null child. y == z.
 				x = y->left;
 			else {
 				y = y->right;
@@ -424,37 +424,43 @@ namespace ft {
 			}
 		}
 
-		if (y->color != red) {
-			while (x != root && (x == 0 || x->color == black)) {
-				if (x == x_parent->left) {
-					Rb_tree_node_base* w = x_parent->right;
+		if (y->color != red) {  // 삭제되는 색이 red라면 어떠한 속성도 위반하지 않는다.
+			while (x != root && (x == 0 || x->color == black)) { // doubly black node가 root에 도착하기 전까지 black이면 계속 반복
+				if (x == x_parent->left) {  // 삭제할 노드가 왼쪽 자식인 경우
+					Rb_tree_node_base* w = x_parent->right;  // w is x's right uncle.
+					/* case 1) sibling이 red인 경우 */
 					if (w->color == red) {
 						w->color = black;
 						x_parent->color = red;
 						Rb_tree_rotate_left(x_parent, root);
 						w = x_parent->right;
 					}
+
+					/* case 2-A) sibling의 모든 child가 black인 경우 */
 					if ((w->left == 0 || w->left->color == black) && (w->right == 0 || w->right->color == black)) {
 						w->color = red;
-						x = x_parent;
+						x = x_parent;  // doubly black node가 root node로 올라간다.
 						x_parent = x_parent->parent;
 					}
 					else {
+						/* case 2-B) sibling이 black이고, sibling의 leftchild가 red인 경우 */
+						/* sibling의 left child가 black일 경우는 위에서 처리했기 때문에 무조건 red이다. */
 						if (w->right == 0 || w->right->color == black) {
 							w->left->color = black;
 							w->color = red;
 							Rb_tree_rotate_right(w, root);
 							w = x_parent->right;
 						}
+						/* case 2-C) sibling이 black이면서, sibling의 rightchild가 red인 경우 */
 						w->color = x_parent->color;
 						x_parent->color = black;
 						if (w->right)
 							w->right->color = black;
 						Rb_tree_rotate_left(x_parent, root);
-						break;
+						break; // 2-C를 수행한 다음에는 모든 작업을 스킵해도 속성 만족
 					}
 				}
-				else {
+				else { // 삭제할 노드가 오른쪽 자식인 경우
 					Rb_tree_node_base* w = x_parent->left;
 					if (w->color == red) {
 						w->color = black;
@@ -886,7 +892,7 @@ namespace ft {
 					return ft::pair<iterator, bool>(insert(x, y, v), true);
 				else
 					--i;
-			}  // OB
+			}
 			if (impl.key_compare(key(i.node), KeyOfValue()(v)))
 				return ft::pair<iterator, bool>(insert(x, y, v), true);
 			return (ft::pair<iterator, bool>(i, false));

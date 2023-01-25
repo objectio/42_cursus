@@ -6,13 +6,14 @@
 /*   By: younjkim <younjkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 21:30:51 by younjkim          #+#    #+#             */
-/*   Updated: 2023/01/25 04:42:27 by younjkim         ###   ########.fr       */
+/*   Updated: 2023/01/25 13:15:38 by younjkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include <deque>
+#include <ctime>
 
 #if 1 //CREATE A REAL STL EXAMPLE
 	#include <map>
@@ -75,6 +76,11 @@ int subject_test(int argc, char** argv) {
 	ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
 	ft::map<int, int> map_int;
 
+	std::clock_t start, finish;
+	double duration;
+
+	start = std::clock();
+
 	for (int i = 0; i < COUNT; i++)
 	{
 		vector_buffer.push_back(Buffer());
@@ -126,6 +132,11 @@ int subject_test(int argc, char** argv) {
 	}
 	std::cout << std::endl;
 
+	finish = std::clock();
+
+	duration = (double)(finish - start);
+	std::cout << duration << "ms" << std::endl;
+
 	return (0);
 }
 
@@ -151,6 +162,10 @@ void print_map_element(T container) {
 }
 
 void vector_test() {
+	std::clock_t start, finish;
+	double duration;
+	start = std::clock();
+
 	ft::vector<int> myvector(1);
 	std::cout << " ### myvector construct ### " << std::endl;
 	print_element(myvector);
@@ -189,9 +204,17 @@ void vector_test() {
 	myvector3.pop_back();
 	std::cout << " ### myvector3 pop back ### " << std::endl;
 	print_element(myvector3);
+
+	finish = std::clock();
+	duration = (double)(finish - start);
+	std::cout << duration << "ms" << std::endl;
 }
 
 void map_test() {
+	std::clock_t start, finish;
+	double duration;
+	start = std::clock();
+
 	ft::map<std::string, int> mymap;
 	mymap.insert(ft::make_pair<std::string, int>("hundred", 100));
 	mymap["thousand"] = 1000;
@@ -209,9 +232,17 @@ void map_test() {
 	std::cout << " ### mymap bound ### " << std::endl;
 	std::cout << "lower bound: " << mymap.lower_bound("hundred")->second << std::endl;
 	std::cout << "upper bound: " << mymap.upper_bound("hundred")->second << std::endl;
+
+	finish = std::clock();
+	duration = (double)(finish - start);
+	std::cout << duration << "ms" << std::endl;
 }
 
 void stack_test() {
+	std::clock_t start, finish;
+	double duration;
+	start = std::clock();
+
 	ft::stack<std::string> mystack;
 	mystack.push("karina");
 	mystack.push("winter");
@@ -228,9 +259,17 @@ void stack_test() {
 	std::cout << " ### after pop ### " << std::endl;
 	std::cout << "size: " << mystack.size() << std::endl;
 	std::cout << "top: " << mystack.top() << std::endl;
+
+	finish = std::clock();
+	duration = (double)(finish - start);
+	std::cout << duration << "ms" << std::endl;
 }
 
 void set_test() {
+	std::clock_t start, finish;
+	double duration;
+	start = std::clock();
+
 	ft::set<int> myset;
 	myset.insert(32);
 	myset.insert(11);
@@ -248,6 +287,10 @@ void set_test() {
 	myset.erase(11);
 	std::cout << "after erase: " << *(myset.find(11)) << std::endl;
 	std::cout << "size: " << myset.size() << std::endl;
+
+	finish = std::clock();
+	duration = (double)(finish - start);
+	std::cout << duration << "ms" << std::endl;
 }
 
 int main(int argc, char** argv) {

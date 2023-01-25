@@ -355,8 +355,8 @@ namespace ft {
 		Rb_tree_node_base *& root = header.parent;
 		Rb_tree_node_base *& left = header.left; // leftmost()
 		Rb_tree_node_base *& right = header.right; // rightmost()
-		Rb_tree_node_base* y = z;
-		Rb_tree_node_base* x = 0;
+		Rb_tree_node_base* y = z;  // z의 successor
+		Rb_tree_node_base* x = 0;  // z 자리로 올라간 y를 대체할 x.
 		Rb_tree_node_base* x_parent = 0;
 
 		if (y->left == 0)    // z has at most one non-null child. y == z.
@@ -367,7 +367,7 @@ namespace ft {
 			else {  // z has two non-null children.
 				y = y->right;
 				while (y->left != 0)
-					y = y->left;
+					y = y->left;  // y = y 자식 중  가장 작은 값.
 				x = y->right;
 			}
 		}

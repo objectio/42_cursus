@@ -1,3 +1,7 @@
 [submodule "Cub3d"]
 	path = Cub3d
 	url = https://github.com/S0YKIM/Cub3d.git
+
+[submodule "webserv"]
+	path = webserv
+	url = https://github.com/42-JungSaKkeokkMa-Webserv/Webserv.git

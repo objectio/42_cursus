@@ -16,7 +16,7 @@
 | 4 | Cub3D | ☑️ | ☑️ | ray-casting을 이용한 3D 게임 구현 | 22-09-11 |
 | 5 | Inception | ☑️ | ☑️ | Docker를 통해 간단한 웹페이지 구성 | 22-12-06 |
 | 5 | ft_container | ☑️ | ☑️ | C++98의 STL 일부 구현 | 23-01-25 |
-| 5 | ft_irc | 💬 |  | Internet Relay Chatting 서버 구현 |  |
+| 5 | ft_irc | ☑️ | ☑️ | Internet Relay Chatting 서버 구현 | 23-03-03 |
 | 6 | ft_transcendence |  |  |  |  |
 
 <br>

@@ -3,13 +3,11 @@
 int	get_next_line(char **line)
 {
 	int		i;
-	int		l;
-	int		r;
+	int		l = 1;
+	int		r = 0;
 	char	c;
 	char	*tmp;
 
-	r = 0;
-	l = 1;
 	if (!(*line = malloc(l)))
 		return (-1);
 	(*line)[0] = 0;

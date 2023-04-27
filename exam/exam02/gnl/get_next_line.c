@@ -1,30 +1,87 @@
 #include "get_next_line.h"
 
-int	get_next_line(char **line)
+int	ft_strlen(char *str)
 {
-	int		i;
-	int		l = 1;
-	int		r = 0;
-	char	c;
-	char	*tmp;
+	int	i = 0;
 
-	if (!(*line = malloc(l)))
-		return (-1);
-	(*line)[0] = 0;
-	while ((r = read(0, &c, 1)) && l++ && c != '\n')
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(char *str)
+{
+	int		len = ft_strlen(str);
+	int		i = -1;
+	char	*dup = malloc(len + 1);
+
+	if (!dup)
+		return (NULL);
+	while (str[++i])
+		dup[i] = str[i];
+	dup[i] = 0;
+	return (dup);
+}
+
+char	*get_next_line(int fd)
+{
+	char	buffer;
+	char	rtn[7000000];
+	int		i = 0;
+	int		n;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	n = read(fd, &buffer, 1);
+	while (n > 0)
 	{
-		if (!(tmp = malloc(l)))
-		{
-			free(*line);
-			return (-1);
-		}
-		i = -1;
-		while (++i < l - 2)
-			tmp[i] = (*line)[i];
-		tmp[i] = c;
-		tmp[i + 1] = 0;
-		free(*line);
-		*line = tmp;
+		rtn[i++] = buffer;
+		if (buffer == '\n')
+			break ;
+		n = read(fd, &buffer, 1);
 	}
-	return (r);
+	rtn[i] = 0;
+	if (n <= 0 && i == 0)
+		return (0);
+	return (ft_strdup(rtn));
+}
+
+// char	*get_next_line(int fd)
+// {
+// 	int	rd;
+// 	int	i = 0;
+// 	char	c;
+// 	char	*buffer = malloc(9999);
+
+// 	while ((rd = read(fd, &c, 1) > 0))
+// 	{
+// 		buffer[i] = c;
+// 		i++;
+// 		if (c == '\n')
+// 			break ;
+// 	}
+// 	if ((!buffer[i - 1] && !rd) || rd == -1)
+// 	{
+// 		free(buffer);
+// 		return (NULL);
+// 	}
+// 	i++;
+// 	buffer[i] = '\0';
+// 	return (buffer);
+// }
+
+int main()
+{
+    int fd;
+    fd = open("foo.txt",O_RDONLY);
+    char *t;
+    t = get_next_line(fd);
+    while (t != NULL)
+    {
+        printf("%s",t);
+        t = get_next_line(fd);
+    }
+    free(t);
+    close(fd);
+
 }

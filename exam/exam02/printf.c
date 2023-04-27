@@ -9,9 +9,8 @@ int	ft_putchar(char c)
 
 int	ft_putstr(char *str)
 {
-	int	len;
+	int	len = 0;
 
-	len = 0;
 	if (!str)
 		str = "(null)";
 	while (*str)
@@ -21,11 +20,9 @@ int	ft_putstr(char *str)
 
 int	ft_putnbr(int nb)
 {
-	long long	n;
-	int			len;
+	long long	n = nb;
+	int			len = 0;
 
-	len = 0;
-	n = nb;
 	if (n < 0)
 	{
 		len += write(1, "-", 1);
@@ -43,9 +40,8 @@ int	ft_putnbr(int nb)
 
 int	ft_puthex(unsigned int n)
 {
-	int	len;
+	int	len = 0;
 
-	len = 0;
 	if (n > 15)
 	{
 		len += ft_puthex(n / 16);
@@ -60,12 +56,10 @@ int	ft_puthex(unsigned int n)
 
 int	ft_printf(const char *format, ...)
 {
-	int			i;
-	int			len;
+	int			i = -1;
+	int			len = 0;
 	va_list		ptr;
 
-	len = 0;
-	i = -1;
 	va_start(ptr, format);
 	while (format[++i])
 	{
@@ -84,4 +78,12 @@ int	ft_printf(const char *format, ...)
 	}
 	va_end(ptr);
 	return (len);
+}
+
+#include <stdio.h>
+
+int main()
+{
+    printf("%d\n", (ft_printf("%s\n", "AVE MARIA")));
+    printf("%d\n", (printf("%s\n", "AVE MARIA")));
 }

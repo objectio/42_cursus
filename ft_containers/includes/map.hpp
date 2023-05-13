@@ -24,12 +24,11 @@ namespace ft {
 		class value_compare : public std::binary_function<value_type, value_type, bool> {
 			friend class map<Key, T, Compare, Alloc>;
 
-			protected:
+			public:
 			Compare comp;
 
 			value_compare(Compare c) : comp(c) { }
 
-			public:
 			bool operator() (const value_type& x, const value_type& y) const {
 				return comp(x.first, y.first);
 			}

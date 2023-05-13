@@ -16,7 +16,7 @@ services:
       - ./srcs/front_end/.env.local
       - ./srcs/back_end/src/config/env/.development.env
     volumes:
-      - ./srcs/db/data:/var/lib/postgresql/data
+      - ./volumes/db/data:/var/lib/postgresql/data
     networks:
       - transpong-network
   

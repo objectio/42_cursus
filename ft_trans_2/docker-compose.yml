@@ -16,7 +16,7 @@ services:
       - ./srcs/front_end/.env.local
       - ./srcs/back_end/src/config/env/.development.env
     volumes:
-      - ./volumes/db/data:/var/lib/postgresql/data
+      - ./srcs/db/data:/var/lib/postgresql/data
     networks:
       - transpong-network
   
@@ -27,7 +27,7 @@ services:
     ports: 
       - 8080:80
     volumes: 
-      - ./volumes/nginx/conf:/etc/nginx/conf.d:ro
+      - ./srcs/nginx/conf:/etc/nginx/conf.d:ro
     networks: 
       - transpong-network
 

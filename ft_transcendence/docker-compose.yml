@@ -16,18 +16,18 @@ services:
       - ./srcs/front_end/.env.local
       - ./srcs/back_end/src/config/env/.development.env
     volumes:
-      - ./volumes/db/data:/var/lib/postgresql/data
+      - ./srcs/db/data:/var/lib/postgresql/data
     networks:
       - transpong-network
   
   nginx:
-    image: nginx:1.23.4 
+    image: nginx:latest 
     restart: always 
     container_name: transpong-nginx 
     ports: 
-      - 4000:80
+      - 8080:80
     volumes: 
-      - ./volumes/nginx/conf:/etc/nginx/conf.d:ro
+      - ./srcs/nginx/conf:/etc/nginx/conf.d:ro
     networks: 
       - transpong-network
 
@@ -42,8 +42,8 @@ services:
       - ./srcs/back_end/src/config/env/.development.env
     volumes:
       - ./srcs/front_end:/transpong
-    ports: 
-      - 4000:4000
+    # ports: 
+    #   - 4000:4000
     networks:
       - transpong-network
     depends_on:
@@ -60,7 +60,7 @@ services:
       - ./srcs/back_end/src/config/env/.development.env
     volumes: 
       - ./srcs/back_end:/transpong
-    ports: 
-      - 3000:3000
+    # ports: 
+    #   - 3000:3000
     networks:
       - transpong-network
